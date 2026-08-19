@@ -7,7 +7,6 @@ A bilingual public archive and private moderator workspace for the Garasho-wadaa
 - Public Somali and English archive backed by Supabase
 - Search, programme and year filters
 - Participation statistics, including women, youth, elders and government
-- Moderator sign-in with the usernames `hiloow` and `garashowadaag`
 - Shared episode, drama and guest editing
 - Protected repeat-drama references enforced by Supabase Row Level Security
 - Automatic GitHub Pages deployment
