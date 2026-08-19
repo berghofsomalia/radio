@@ -5,12 +5,21 @@ import AdminApp from "./AdminApp";
 import "./styles.css";
 import "./admin.css";
 
+function isAdminRoute() {
+  const pathname = window.location.pathname.replace(/\/+$/, "");
+  return pathname.endsWith("/admin") || window.location.hash.startsWith("#/admin");
+}
+
 function Router() {
-  const [admin, setAdmin] = useState(window.location.hash.startsWith("#/admin"));
+  const [admin, setAdmin] = useState(isAdminRoute);
   useEffect(() => {
-    const update = () => setAdmin(window.location.hash.startsWith("#/admin"));
+    const update = () => setAdmin(isAdminRoute());
     window.addEventListener("hashchange", update);
-    return () => window.removeEventListener("hashchange", update);
+    window.addEventListener("popstate", update);
+    return () => {
+      window.removeEventListener("hashchange", update);
+      window.removeEventListener("popstate", update);
+    };
   }, []);
   return admin ? <AdminApp /> : <Archive />;
 }
