@@ -101,7 +101,9 @@ export async function loadArchive(): Promise<ArchiveData> {
   const programmes: Programme[] = programmeRows.map((row) => ({
     id: row.id,
     state_id: row.state_id,
-    name: { so: row.name_so || "?", en: row.name_en || "?" },
+    name: row.id === "garasho-wadaag"
+      ? { so: "Garasho-wadaag", en: "Garasho-wadaag" }
+      : { so: row.name_so || "?", en: row.name_en || "?" },
     description: { so: row.description_so || "?", en: row.description_en || "?" },
     spreaker_url: row.spreaker_url || "",
     station_ids: links.filter((link) => link.programme_id === row.id).map((link) => link.station_id),

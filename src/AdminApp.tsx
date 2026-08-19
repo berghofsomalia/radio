@@ -15,7 +15,7 @@ const logos: Record<string, string> = {
 const copy = {
   so: {
     editor: "Maamulka kaydka", internal: "Goobta shaqada ee gudaha", back: "Eeg kaydka", all: "Dhammaan", missing: "Wax ka dhiman", complete: "Dhammaystiran",
-    episodes: "Qaybaha", needsWork: "U baahan xog", titleGaps: "Cinwaanno maqan", guestGaps: "Xogta martida oo maqan", saved: "Kaydsan", saving: "Waa la kaydinayaa…", save: "Kaydi isbeddellada", savedBy: "Waxaa kaydiyey", search: "Raadi qayb, cinwaan ama marti", noEpisodes: "Qaybo lama helin.", episode: "Qaybta", overview: "Xogta qaybta", programme: "Barnaamij", number: "Lambarka", date: "Taariikhda baahinta", station: "Idaacad", status: "Xaaladda daabacaadda", ready: "Diyaar", incomplete: "Aan dhammaystirnayn", somaliTitle: "Cinwaanka Soomaaliga", englishTitle: "Cinwaanka Ingiriisiga", media: "Warbaahinta", cover: "Sawirka qaybta", audio: "Codka", video: "Fiidiyowga", urlOptional: "Xiriiriye, haddii uu jiro", drama: "Riwaayadda", dramaType: "Nooca riwaayadda", newDrama: "Cusub", repeatedDrama: "Soo noqotay", episodeNumber: "Qaybta #", internalHelp: "Dooro ama qor lambarka qaybtii riwaayaddu markii hore ka baxday. Gudaha oo keliya.", synopsisSo: "Dulucda riwaayadda, Soomaali", synopsisEn: "Dulucda riwaayadda, Ingiriisi", guests: "Martida", addGuest: "Ku dar marti", addEpisode: "Ku dar qayb", newEpisode: "Qayb cusub", remove: "Ka saar", guestName: "Magaca", roleSo: "Doorka, Soomaali", roleEn: "Doorka, Ingiriisi", gender: "Jinsi", man: "Nin", woman: "Haweeney", unknown: "Lama hubo", youth: "Dhallinyaro", yes: "Haa", no: "Maya", crossSection: "Qaybta bulshada", civilSociety: "Bulshada rayidka", governmentAdmin: "Dowladda / maamulka", elder: "Oday", religiousLeader: "Hoggaamiye diimeed", ipn: "Xubin IPN", notIpn: "Maya", participation: "Ka qaybgal", live: "Toos", recorded: "La duubay", export: "Soo dejiso xogta dadweynaha", exportHelp: "Waxay ka saartaa tixraaca riwaayadda ee gudaha.", selectEpisode: "Ka dooro qayb liisaska kore ama liiska bidix si aad u bilowdo.", allComplete: "Dhammaan waa dhammaystiran yihiin.", chooseProgramme: "Dooro barnaamij", episodeRequired: "Dooro barnaamij oo geli lambarka qaybta.", episodeExists: "Lambarkan qaybta mar hore ayuu uga jiraa barnaamijkan.", unsaved: "Waxaad leedahay isbeddello aan la kaydin. Ma sii socotaa?", saveFailed: "Kaydintu way fashilantay. Mar kale isku day.", loadFailed: "Xogta maamulka lama furi karin.", loading: "Xogta waa la furayaa…", fieldsMissing: "meelood ayaa ka maqan",
+    episodes: "Qaybaha", needsWork: "U baahan xog", titleGaps: "Cinwaanno maqan", guestGaps: "Xogta martida oo maqan", saved: "Kaydsan", saving: "Waa la kaydinayaa…", save: "Kaydi isbeddellada", savedBy: "Waxaa kaydiyey", search: "Raadi qayb, cinwaan ama marti", noEpisodes: "Qaybo lama helin.", episode: "Taxanaha", overview: "Xogta qaybta", programme: "Barnaamij", number: "Lambarka", date: "Taariikhda baahinta", station: "Idaacad", status: "Xaaladda daabacaadda", ready: "Diyaar", incomplete: "Aan dhammaystirnayn", somaliTitle: "Cinwaanka Soomaaliga", englishTitle: "Cinwaanka Ingiriisiga", media: "Warbaahinta", cover: "Sawirka qaybta", audio: "Codka", video: "Fiidiyowga", urlOptional: "Xiriiriye, haddii uu jiro", drama: "Riwaayadda", dramaType: "Nooca riwaayadda", newDrama: "Cusub", repeatedDrama: "Soo noqotay", episodeNumber: "Taxanaha #", internalHelp: "Dooro ama qor lambarka qaybtii riwaayaddu markii hore ka baxday. Gudaha oo keliya.", synopsisSo: "Dulucda riwaayadda, Soomaali", synopsisEn: "Dulucda riwaayadda, Ingiriisi", guests: "Martida", addGuest: "Ku dar marti", addEpisode: "Ku dar qayb", newEpisode: "Qayb cusub", remove: "Ka saar", guestName: "Magaca", roleSo: "Doorka, Soomaali", roleEn: "Doorka, Ingiriisi", gender: "Jinsi", man: "Nin", woman: "Haweeney", unknown: "Lama hubo", youth: "Dhallinyaro", yes: "Haa", no: "Maya", crossSection: "Qaybta bulshada", civilSociety: "Bulshada rayidka", governmentAdmin: "Dowladda / maamulka", elder: "Oday", religiousLeader: "Hoggaamiye diimeed", ipn: "Xubin IPN", notIpn: "Maya", participation: "Ka qaybgal", live: "Toos", recorded: "La duubay", export: "Soo dejiso xogta dadweynaha", exportHelp: "Waxay ka saartaa tixraaca riwaayadda ee gudaha.", selectEpisode: "Ka dooro qayb liisaska kore ama liiska bidix si aad u bilowdo.", allComplete: "Dhammaan waa dhammaystiran yihiin.", chooseProgramme: "Dooro barnaamij", episodeRequired: "Dooro barnaamij oo geli lambarka qaybta.", episodeExists: "Lambarkan qaybta mar hore ayuu uga jiraa barnaamijkan.", unsaved: "Waxaad leedahay isbeddello aan la kaydin. Ma sii socotaa?", saveFailed: "Kaydintu way fashilantay. Mar kale isku day.", loadFailed: "Xogta maamulka lama furi karin.", loading: "Xogta waa la furayaa…", fieldsMissing: "meelood ayaa ka maqan",
   },
   en: {
     editor: "Archive editor", internal: "Private team workspace", back: "View archive", all: "All", missing: "Needs work", complete: "Complete",
@@ -84,6 +84,10 @@ function displayTitle(draft: Draft, language: Language) {
   const preferred = draft.episode.title[language];
   const fallback = draft.episode.title[language === "so" ? "en" : "so"];
   return !missing(preferred) ? preferred : !missing(fallback) ? fallback : `#${draft.episode.episode_number}`;
+}
+
+function episodeLabel(number: number, language: Language) {
+  return language === "so" ? `Taxanaha ${number}-aad` : `Episode ${number}`;
 }
 
 export default function AdminApp() {
@@ -339,7 +343,7 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
             <div className="attention-list">
               {group.items.map((item) => {
                 const programme = programmeMap.get(item.episode.programme_id);
-                return <button onClick={() => selectEpisode(item.episode.id)} key={item.episode.id}><img src={logos[item.episode.programme_id]} alt="" /><span><small>{programme?.name[language]} · {t.episode} {item.episode.episode_number}</small><b>{displayTitle(item, language)}</b></span><i>→</i></button>;
+                return <button onClick={() => selectEpisode(item.episode.id)} key={item.episode.id}><img src={logos[item.episode.programme_id]} alt="" /><span><small>{programme?.name[language]} · {episodeLabel(item.episode.episode_number, language)}</small><b>{displayTitle(item, language)}</b></span><i>→</i></button>;
               })}
               {!group.items.length && <p>{t.allComplete}</p>}
             </div>
@@ -356,7 +360,7 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
                 const item = allDrafts.get(episode.id)!;
                 const itemGaps = gaps(item);
                 const programme = programmeMap.get(episode.programme_id)!;
-                return <button className={`${selectedId === episode.id ? "active" : ""} ${itemGaps.length ? "incomplete" : "complete"}`} onClick={() => selectEpisode(episode.id)} key={episode.id}><img src={logos[episode.programme_id]} alt="" /><span><small>{programme.name[language]} · {t.episode} {episode.episode_number}</small><strong>{displayTitle(item, language)}</strong><em>{itemGaps.length ? `${itemGaps.length} ${t.fieldsMissing}` : t.complete}</em></span><i>{itemGaps.length || "✓"}</i></button>;
+                return <button className={`${selectedId === episode.id ? "active" : ""} ${itemGaps.length ? "incomplete" : "complete"}`} onClick={() => selectEpisode(episode.id)} key={episode.id}><img src={logos[episode.programme_id]} alt="" /><span><small>{programme.name[language]} · {episodeLabel(episode.episode_number, language)}</small><strong>{displayTitle(item, language)}</strong><em>{itemGaps.length ? `${itemGaps.length} ${t.fieldsMissing}` : t.complete}</em></span><i>{itemGaps.length || "✓"}</i></button>;
               })}
               {!filteredEpisodes.length && <p className="browser-empty">{t.noEpisodes}</p>}
             </div>
@@ -364,7 +368,7 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
 
           <section className="episode-editor">
             {!draft ? <div className="editor-empty">{t.selectEpisode}</div> : <>
-              <div className={`editor-banner ${draft.episode.programme_id || "new"}`}><div>{draft.episode.programme_id && <img src={logos[draft.episode.programme_id]} alt="" />}<span><small>{programmeMap.get(draft.episode.programme_id)?.name[language] || t.newEpisode}</small><strong>{draft.episode.episode_number ? `${t.episode} ${draft.episode.episode_number}` : t.newEpisode}</strong></span></div><span className={gaps(draft).length ? "gap-count" : "gap-count complete"}>{gaps(draft).length ? `${gaps(draft).length} ${t.fieldsMissing}` : t.complete}</span></div>
+              <div className={`editor-banner ${draft.episode.programme_id || "new"}`}><div>{draft.episode.programme_id && <img src={logos[draft.episode.programme_id]} alt="" />}<span><small>{programmeMap.get(draft.episode.programme_id)?.name[language] || t.newEpisode}</small><strong>{draft.episode.episode_number ? episodeLabel(draft.episode.episode_number, language) : t.newEpisode}</strong></span></div><span className={gaps(draft).length ? "gap-count" : "gap-count complete"}>{gaps(draft).length ? `${gaps(draft).length} ${t.fieldsMissing}` : t.complete}</span></div>
 
               <EditorSection title={t.overview} number="01">
                 <div className="form-grid four">

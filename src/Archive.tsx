@@ -133,6 +133,10 @@ function interpolate(template: string, values: Record<string, string | number>) 
   );
 }
 
+function episodeLabel(number: number, language: Language, t: (key: string) => string) {
+  return language === "so" ? `Taxanaha ${number}-aad` : `${t("episode")} ${number}`;
+}
+
 function episodeSort(a: Episode, b: Episode) {
   return b.broadcast_date.localeCompare(a.broadcast_date) || b.episode_number - a.episode_number;
 }
@@ -361,7 +365,7 @@ function EpisodeCard({ episode, programme, station, guests, language, navigate, 
       <button
         className={`episode-cover ${programme.id}`}
         onClick={() => navigate({ programme: null, episode: episode.id })}
-        aria-label={`${programme.name[language]} · ${t("episode")} ${episode.episode_number}: ${value(episode.title, language)}`}
+        aria-label={`${programme.name[language]} · ${episodeLabel(episode.episode_number, language, t)}: ${value(episode.title, language)}`}
       >
         <EpisodeCoverImage episode={episode} className="episode-cover-image" />
       </button>
@@ -406,7 +410,7 @@ function EpisodeView({ episode, data, language, navigate, t }: {
       <button className="back-button" onClick={() => navigate({ programme: episode.programme_id, episode: null })}>← {t("back_archive")}</button>
       <section className={`episode-hero ${programme.id}`}>
         <div>
-          <p className="eyebrow">{programme.name[language]} · {t("episode")} {episode.episode_number}</p>
+          <p className="eyebrow">{programme.name[language]} · {episodeLabel(episode.episode_number, language, t)}</p>
           <h1>{value(episode.title, language)}</h1>
           <dl><div><dt>{t("broadcast_date")}</dt><dd>{formatDate(episode.broadcast_date, language)}</dd></div><div><dt>{t("station")}</dt><dd>{station ? station.name[language] : "?"}</dd></div></dl>
         </div>
