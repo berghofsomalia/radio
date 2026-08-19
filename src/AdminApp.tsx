@@ -69,17 +69,6 @@ function gaps(draft: Draft) {
   return result;
 }
 
-function titleNeedsAttention(draft: Draft) {
-  return missing(draft.episode.title.so) || missing(draft.episode.title.en);
-}
-
-function guestNeedsAttention(draft: Draft) {
-  return draft.guests.length === 0 || draft.guests.some((guest) =>
-    missing(guest.guest_name) || missing(guest.role.so) || missing(guest.role.en) ||
-    guest.gender === "unknown" || guest.is_youth === null || !guest.cross_section
-  );
-}
-
 function displayTitle(draft: Draft, language: Language) {
   const preferred = draft.episode.title[language];
   const fallback = draft.episode.title[language === "so" ? "en" : "so"];
@@ -201,9 +190,6 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
 
   const programmeMap = new Map(baseline.programmes.map((item) => [item.id, item]));
   const guestNames = Array.from(new Set(baseline.guests.map((guest) => guest.guest_name).filter((name) => !missing(name)))).sort();
-  const attentionSort = (a: Draft, b: Draft) => b.episode.broadcast_date.localeCompare(a.episode.broadcast_date) || b.episode.episode_number - a.episode.episode_number;
-  const titleAttention = [...allDrafts.values()].filter(titleNeedsAttention).sort(attentionSort);
-  const guestAttention = [...allDrafts.values()].filter(guestNeedsAttention).sort(attentionSort);
   const loweredQuery = query.trim().toLocaleLowerCase();
   const filteredEpisodes = effectiveEpisodes.filter((episode) => {
     const item = allDrafts.get(episode.id)!;
@@ -330,28 +316,9 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
       </header>
 
       <main className="admin-main">
-        <section className="admin-intro">
-          <div><p>{t.internal}</p><h1>{t.editor}</h1></div>
-          <div className="intro-actions">
-            <button className="add-episode-button" onClick={addEpisode}><span>＋</span>{t.addEpisode}</button>
-          </div>
-        </section>
-
-        <section className="attention-dashboard">
-          {([{ title: t.titleGaps, items: titleAttention }, { title: t.guestGaps, items: guestAttention }] as const).map((group) => <article className="attention-card" key={group.title}>
-            <header><div><span>{t.needsWork}</span><h2>{group.title}</h2></div><strong>{group.items.length}</strong></header>
-            <div className="attention-list">
-              {group.items.map((item) => {
-                const programme = programmeMap.get(item.episode.programme_id);
-                return <button onClick={() => selectEpisode(item.episode.id)} key={item.episode.id}><img src={logos[item.episode.programme_id]} alt="" /><span><small>{programme?.name[language]} · {episodeLabel(item.episode.episode_number, language)}</small><b>{displayTitle(item, language)}</b></span><i>→</i></button>;
-              })}
-              {!group.items.length && <p>{t.allComplete}</p>}
-            </div>
-          </article>)}
-        </section>
-
         <section className="admin-workspace">
           <aside className="episode-browser">
+            <div className="episode-browser-actions"><button className="add-episode-button" onClick={addEpisode}><span>＋</span>{t.addEpisode}</button></div>
             <div className="programme-tabs"><button className={programmeFilter === "all" ? "active" : ""} onClick={() => setProgrammeFilter("all")}>{t.all}</button>{baseline.programmes.map((programme) => <button className={programmeFilter === programme.id ? "active" : ""} onClick={() => setProgrammeFilter(programme.id)} key={programme.id}><img src={logos[programme.id]} alt="" />{programme.name[language]}</button>)}</div>
             <label className="admin-search"><span>⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={t.search} /></label>
             <div className="status-tabs"><button className={statusFilter === "missing" ? "active" : ""} onClick={() => setStatusFilter("missing")}>{t.missing}</button><button className={statusFilter === "all" ? "active" : ""} onClick={() => setStatusFilter("all")}>{t.all}</button><button className={statusFilter === "complete" ? "active" : ""} onClick={() => setStatusFilter("complete")}>{t.complete}</button></div>
