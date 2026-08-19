@@ -10,6 +10,7 @@
     "dev": "vite",
     "typecheck": "tsc --noEmit",
     "build": "vite build",
+    "postbuild": "node -e \"require('node:fs').copyFileSync('dist/index.html','dist/404.html')\"",
     "check": "npm run typecheck && npm run build"
   },
   "dependencies": {
@@ -25,4 +26,3 @@
     "vite": "8.0.13"
   }
 }
-
