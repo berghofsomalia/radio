@@ -69,6 +69,38 @@ const programmeLogos: Record<string, string> = {
   hiloow: "logos/hiloow.png",
 };
 
+const coverPrefixes: Record<string, string> = {
+  "garasho-wadaag": "Garasho-wadaag",
+  hiloow: "Hiloow",
+};
+
+function episodeCoverPath(episode: Episode) {
+  const prefix = coverPrefixes[episode.programme_id];
+  return `covers/${prefix} ${String(episode.episode_number).padStart(3, "0")}.png`;
+}
+
+function EpisodeCoverImage({ episode, className, loading = "lazy" }: {
+  episode: Episode;
+  className?: string;
+  loading?: "eager" | "lazy";
+}) {
+  const [attempt, setAttempt] = useState(0);
+  const candidates = [
+    episodeCoverPath(episode),
+    programmeLogos[episode.programme_id],
+  ];
+  return (
+    <img
+      className={className}
+      src={candidates[attempt]}
+      alt=""
+      loading={loading}
+      decoding="async"
+      onError={() => setAttempt((current) => Math.min(current + 1, candidates.length - 1))}
+    />
+  );
+}
+
 function currentRoute(): Route {
   const params = new URLSearchParams(window.location.search);
   return { programme: params.get("programme"), episode: params.get("episode") };
@@ -326,9 +358,12 @@ function EpisodeCard({ episode, programme, station, guests, language, navigate, 
 }) {
   return (
     <article className="episode-card">
-      <button className={`episode-cover ${programme.id}`} onClick={() => navigate({ programme: null, episode: episode.id })}>
-        <img src={programmeLogos[programme.id]} alt="" />
-        <span>{programme.name[language]}</span><strong>{String(episode.episode_number).padStart(2, "0")}</strong><i aria-hidden="true" /><i aria-hidden="true" />
+      <button
+        className={`episode-cover ${programme.id}`}
+        onClick={() => navigate({ programme: null, episode: episode.id })}
+        aria-label={`${programme.name[language]} · ${t("episode")} ${episode.episode_number}: ${value(episode.title, language)}`}
+      >
+        <EpisodeCoverImage episode={episode} className="episode-cover-image" />
       </button>
       <div className="episode-card-body">
         <p className="card-meta">{formatDate(episode.broadcast_date, language)} · {station ? station.name[language] : "?"}</p>
@@ -376,7 +411,7 @@ function EpisodeView({ episode, data, language, navigate, t }: {
           <dl><div><dt>{t("broadcast_date")}</dt><dd>{formatDate(episode.broadcast_date, language)}</dd></div><div><dt>{t("station")}</dt><dd>{station ? station.name[language] : "?"}</dd></div></dl>
         </div>
         <div className="episode-identity" aria-hidden="true">
-          <img src={programmeLogos[programme.id]} alt="" />
+          <EpisodeCoverImage key={episode.id} episode={episode} className="episode-detail-cover" loading="eager" />
           <div className="episode-number">{String(episode.episode_number).padStart(2, "0")}</div>
         </div>
       </section>
