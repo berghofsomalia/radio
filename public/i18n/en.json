@@ -45,5 +45,7 @@
   "loading": "Loading the archive…",
   "no_results": "No episodes match this search.",
   "clear_search": "Clear search",
-  "view_programme": "View programme"
+  "view_programme": "View programme",
+  "no_drama": "No drama",
+  "no_drama_used": "No drama was used"
 }

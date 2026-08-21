@@ -124,11 +124,18 @@
 .admin-field.missing input, .admin-field.missing select, .admin-field.missing textarea { border-color: #e49c3b; background: #fffaf0; }
 .field-help { color: #b9cbc6; font-size: 10px; line-height: 1.4; }
 .internal-input { border-style: dashed !important; }
-.radio-choice { display: grid; grid-template-columns: repeat(2, minmax(140px, 220px)); gap: 10px; }
+.radio-choice { display: grid; grid-template-columns: repeat(3, minmax(120px, 190px)); gap: 10px; }
 .radio-choice label { min-height: 48px; padding: 11px 14px; display: flex; align-items: center; gap: 10px; border: 1px solid #43635f; border-radius: 11px; background: #0f312f; color: #d8e5e1; cursor: pointer; }
 .radio-choice label:has(input:checked) { border-color: var(--yellow); background: #284d49; color: white; }
 .radio-choice input { width: 17px; height: 17px; min-height: 0; padding: 0; accent-color: var(--yellow); }
 .radio-choice span { font-size: 12px; font-weight: 800; }
+.drama-none-note { margin: 0; padding: 18px 20px; border: 1px solid #43635f; border-radius: 12px; background: #0f312f; color: #d8e5e1; font-size: 13px; font-weight: 700; }
+.synopsis-preview { display: grid; gap: 13px; padding: 18px 20px; border: 1px solid #43635f; border-radius: 12px; background: #0f312f; }
+.synopsis-preview > strong { color: white; font-size: 12px; }
+.synopsis-preview-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.synopsis-preview-grid div { display: grid; align-content: start; gap: 7px; }
+.synopsis-preview-grid span { color: #b9cbc6; font-size: 10px; font-weight: 800; }
+.synopsis-preview-grid p { margin: 0; color: #eef5f2; font-size: 13px; line-height: 1.55; white-space: pre-wrap; }
 .segmented { width: fit-content; display: flex; background: #efede7; border-radius: 10px; padding: 3px; }
 .segmented button { min-width: 130px; border: 0; border-radius: 8px; background: transparent; color: var(--muted); padding: 10px 13px; font-size: 11px; font-weight: 800; cursor: pointer; }
 .segmented button.active { background: white; color: var(--ink); box-shadow: 0 1px 4px rgba(17,47,45,.1); }
@@ -203,7 +210,7 @@
   .editor-banner img { width: 54px; height: 54px; border-radius: 13px; }
   .editor-banner .gap-count { display: none; }
   .editor-section > header, .editor-section-body, .save-bar { padding-left: 18px; padding-right: 18px; }
-  .form-grid.two, .form-grid.four { grid-template-columns: 1fr; }
+  .form-grid.two, .form-grid.four, .radio-choice, .synopsis-preview-grid { grid-template-columns: 1fr; }
   .guest-editor-card { padding: 14px; }
   .save-bar { align-items: stretch; flex-direction: column; }
   .save-bar button { width: 100%; }

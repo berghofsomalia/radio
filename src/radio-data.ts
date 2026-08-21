@@ -15,7 +15,7 @@ export type Episode = {
   publication_status: "ready" | "incomplete";
   availability: { image: boolean; audio: boolean; video: boolean };
   media: { cover_image_url: string | null; audio_url: string | null; video_url: string | null };
-  drama: { id: string; relation: "new" | "repeated" | "unresolved"; source_episode_id: string | null };
+  drama: { id: string; relation: "none" | "new" | "repeated" | "unresolved"; source_episode_id: string | null };
   missing_fields: string[];
 };
 export type Guest = {
@@ -123,8 +123,8 @@ export async function loadArchive(): Promise<ArchiveData> {
       availability: { image: row.image_available, audio: row.audio_available, video: row.video_available },
       media: { cover_image_url: row.cover_image_url, audio_url: row.audio_url, video_url: row.video_url },
       drama: {
-        id: relation?.drama_id || `${row.programme_id}-drama-unresolved-${String(row.episode_number).padStart(3, "0")}`,
-        relation: relation?.relation || "unresolved",
+        id: relation?.drama_id || "",
+        relation: relation?.relation || "none",
         source_episode_id: relation ? sourceByDrama.get(relation.drama_id) || null : null,
       },
       missing_fields: row.missing_fields || [],
@@ -190,29 +190,41 @@ export async function saveDraft(draft: Draft) {
   };
   check(await supabase.from("episodes").upsert(episodeRow, { onConflict: "id" }), "episode save");
 
-  const dramaRow = {
-    id: draft.drama.id,
-    programme_id: episode.programme_id,
-    title_so: clean(draft.drama.title.so),
-    title_en: clean(draft.drama.title.en),
-    synopsis_so: clean(draft.drama.synopsis.so),
-    synopsis_en: clean(draft.drama.synopsis.en),
-    data_status: draft.drama.data_status,
-    missing_fields: draft.drama.missing_fields,
-    updated_at: new Date().toISOString(),
-  };
-  check(await supabase.from("dramas").upsert(dramaRow, { onConflict: "id" }), "drama save");
-  check(await supabase.from("episode_dramas").upsert({ episode_id: episode.id, drama_id: draft.drama.id, relation: episode.drama.relation }, { onConflict: "episode_id" }), "drama link save");
-
-  if (episode.drama.relation === "repeated") {
-    check(await supabase.from("episode_internal").upsert({
-      episode_id: episode.id,
-      repeat_source_episode_id: episode.drama.source_episode_id,
-      repeat_drama_raw: clean(draft.repeat_drama_internal),
-      updated_at: new Date().toISOString(),
-    }, { onConflict: "episode_id" }), "repeat reference save");
-  } else {
+  if (episode.drama.relation === "none") {
+    check(await supabase.from("episode_dramas").delete().eq("episode_id", episode.id), "drama link cleanup");
     check(await supabase.from("episode_internal").delete().eq("episode_id", episode.id), "repeat reference cleanup");
+  } else {
+    if (episode.drama.relation === "new") {
+      const dramaRow = {
+        id: draft.drama.id,
+        programme_id: episode.programme_id,
+        title_so: clean(draft.drama.title.so),
+        title_en: clean(draft.drama.title.en),
+        synopsis_so: clean(draft.drama.synopsis.so),
+        synopsis_en: clean(draft.drama.synopsis.en),
+        data_status: draft.drama.data_status,
+        missing_fields: draft.drama.missing_fields,
+        updated_at: new Date().toISOString(),
+      };
+      check(await supabase.from("dramas").upsert(dramaRow, { onConflict: "id" }), "drama save");
+    }
+
+    check(await supabase.from("episode_dramas").upsert({
+      episode_id: episode.id,
+      drama_id: draft.drama.id,
+      relation: episode.drama.relation,
+    }, { onConflict: "episode_id" }), "drama link save");
+
+    if (episode.drama.relation === "repeated") {
+      check(await supabase.from("episode_internal").upsert({
+        episode_id: episode.id,
+        repeat_source_episode_id: episode.drama.source_episode_id,
+        repeat_drama_raw: clean(draft.repeat_drama_internal),
+        updated_at: new Date().toISOString(),
+      }, { onConflict: "episode_id" }), "repeat reference save");
+    } else {
+      check(await supabase.from("episode_internal").delete().eq("episode_id", episode.id), "repeat reference cleanup");
+    }
   }
 
   check(await supabase.from("guest_appearances").delete().eq("episode_id", episode.id), "guest update");

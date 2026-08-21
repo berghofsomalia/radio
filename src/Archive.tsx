@@ -29,7 +29,7 @@ type Episode = {
   media: { cover_image_url: string | null; audio_url: string | null; video_url: string | null };
   drama: {
     id: string;
-    relation: "new" | "repeated" | "unresolved";
+    relation: "none" | "new" | "repeated" | "unresolved";
     source_episode_id: string | null;
   };
   missing_fields: string[];
@@ -446,8 +446,8 @@ function EpisodeView({ episode, data, language, navigate, t }: {
   const previous = position > 0 ? programmeEpisodes[position - 1] : undefined;
   const next = position >= 0 && position < programmeEpisodes.length - 1 ? programmeEpisodes[position + 1] : undefined;
   const original = episode.drama.source_episode_id ? data.episodes.find((item) => item.id === episode.drama.source_episode_id) : undefined;
-  const relationLabel = episode.drama.relation === "new" ? t("new_drama") : episode.drama.relation === "repeated" ? t("repeated_drama") : t("unresolved_drama");
-  const dramaTitle = original ? value(original.title, language) : value(episode.title, language);
+  const relationLabel = episode.drama.relation === "none" ? t("no_drama") : episode.drama.relation === "new" ? t("new_drama") : episode.drama.relation === "repeated" ? t("repeated_drama") : t("unresolved_drama");
+  const dramaTitle = episode.drama.relation === "none" ? t("no_drama_used") : original ? value(original.title, language) : value(episode.title, language);
 
   return (
     <main className="episode-page">
@@ -464,12 +464,12 @@ function EpisodeView({ episode, data, language, navigate, t }: {
         </div>
       </section>
 
-      <section className="drama-panel">
+      <section className={`drama-panel ${episode.drama.relation}`}>
         <div className="drama-heading">
           <div><p className="eyebrow">{t("drama")}</p><h2>{dramaTitle}</h2></div>
           <span className={`relation-chip ${episode.drama.relation}`}>{relationLabel}</span>
         </div>
-        <p className={drama && value(drama.synopsis, language) !== "?" ? "" : "pending-copy"}>{drama && value(drama.synopsis, language) !== "?" ? value(drama.synopsis, language) : t("synopsis_pending")}</p>
+        {episode.drama.relation !== "none" && <p className={drama && value(drama.synopsis, language) !== "?" ? "" : "pending-copy"}>{drama && value(drama.synopsis, language) !== "?" ? value(drama.synopsis, language) : t("synopsis_pending")}</p>}
         {episode.drama.relation === "repeated" && original && <button className="source-link" onClick={() => navigate({ programme: null, episode: original.id })}>{interpolate(t("first_broadcast"), { number: original.episode_number })} →</button>}
       </section>
 

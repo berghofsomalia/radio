@@ -15,11 +15,11 @@ const logos: Record<string, string> = {
 const copy = {
   so: {
     editor: "Maamulka kaydka", internal: "Goobta shaqada ee gudaha", back: "Eeg kaydka", all: "Dhammaan", missing: "Wax ka dhiman", complete: "Dhammaystiran",
-    episodes: "Qaybaha", needsWork: "U baahan xog", titleGaps: "Cinwaanno maqan", guestGaps: "Xogta martida oo maqan", saved: "Kaydsan", saving: "Waa la kaydinayaa…", save: "Kaydi isbeddellada", savedBy: "Waxaa kaydiyey", search: "Raadi qayb, cinwaan ama marti", noEpisodes: "Qaybo lama helin.", episode: "Taxanaha", overview: "Xogta qaybta", programme: "Barnaamij", number: "Lambarka", date: "Taariikhda baahinta", station: "Idaacad", status: "Xaaladda daabacaadda", ready: "Diyaar", incomplete: "Aan dhammaystirnayn", somaliTitle: "Cinwaanka Soomaaliga", englishTitle: "Cinwaanka Ingiriisiga", media: "Warbaahinta", cover: "Sawirka qaybta", audio: "Codka", video: "Fiidiyowga", urlOptional: "Xiriiriye, haddii uu jiro", drama: "Riwaayadda", dramaType: "Nooca riwaayadda", newDrama: "Cusub", repeatedDrama: "Soo noqotay", episodeNumber: "Taxanaha #", internalHelp: "Dooro ama qor lambarka qaybtii riwaayaddu markii hore ka baxday. Gudaha oo keliya.", synopsisSo: "Dulucda riwaayadda, Soomaali", synopsisEn: "Dulucda riwaayadda, Ingiriisi", guests: "Martida", addGuest: "Ku dar marti", addEpisode: "Ku dar qayb", newEpisode: "Qayb cusub", remove: "Ka saar", guestName: "Magaca", roleSo: "Doorka, Soomaali", roleEn: "Doorka, Ingiriisi", gender: "Jinsi", man: "Nin", woman: "Haweeney", unknown: "Lama hubo", youth: "Dhallinyaro", yes: "Haa", no: "Maya", crossSection: "Qaybta bulshada", civilSociety: "Bulshada rayidka", governmentAdmin: "Dowladda / maamulka", elder: "Oday", religiousLeader: "Hoggaamiye diimeed", ipn: "Xubin IPN", notIpn: "Maya", participation: "Ka qaybgal", live: "Toos", recorded: "La duubay", export: "Soo dejiso xogta dadweynaha", exportHelp: "Waxay ka saartaa tixraaca riwaayadda ee gudaha.", selectEpisode: "Ka dooro qayb liisaska kore ama liiska bidix si aad u bilowdo.", allComplete: "Dhammaan waa dhammaystiran yihiin.", chooseProgramme: "Dooro barnaamij", episodeRequired: "Dooro barnaamij oo geli lambarka qaybta.", episodeExists: "Lambarkan qaybta mar hore ayuu uga jiraa barnaamijkan.", unsaved: "Waxaad leedahay isbeddello aan la kaydin. Ma sii socotaa?", saveFailed: "Kaydintu way fashilantay. Mar kale isku day.", loadFailed: "Xogta maamulka lama furi karin.", loading: "Xogta waa la furayaa…", fieldsMissing: "meelood ayaa ka maqan",
+    episodes: "Qaybaha", needsWork: "U baahan xog", titleGaps: "Cinwaanno maqan", guestGaps: "Xogta martida oo maqan", saved: "Kaydsan", saving: "Waa la kaydinayaa…", save: "Kaydi isbeddellada", savedBy: "Waxaa kaydiyey", search: "Raadi qayb, cinwaan ama marti", noEpisodes: "Qaybo lama helin.", episode: "Taxanaha", overview: "Xogta qaybta", programme: "Barnaamij", number: "Lambarka", date: "Taariikhda baahinta", station: "Idaacad", status: "Xaaladda daabacaadda", ready: "Diyaar", incomplete: "Aan dhammaystirnayn", somaliTitle: "Cinwaanka Soomaaliga", englishTitle: "Cinwaanka Ingiriisiga", media: "Warbaahinta", cover: "Sawirka qaybta", audio: "Codka", video: "Fiidiyowga", urlOptional: "Xiriiriye, haddii uu jiro", drama: "Riwaayadda", dramaType: "Nooca riwaayadda", noneDrama: "Ma jirto", newDrama: "Cusub", repeatedDrama: "Soo noqotay", noDramaUsed: "Riwaayad lama isticmaalin", repeatedSynopsis: "Dulucda riwaayadda la doortay", synopsisPending: "Dulucda weli lama gelin.", repeatRequired: "Dooro taxanihii ay riwaayaddu markii hore ka baxday.", episodeNumber: "Taxanaha #", internalHelp: "Dooro ama qor lambarka qaybtii riwaayaddu markii hore ka baxday. Gudaha oo keliya.", synopsisSo: "Dulucda riwaayadda, Soomaali", synopsisEn: "Dulucda riwaayadda, Ingiriisi", guests: "Martida", addGuest: "Ku dar marti", addEpisode: "Ku dar qayb", newEpisode: "Qayb cusub", remove: "Ka saar", guestName: "Magaca", roleSo: "Doorka, Soomaali", roleEn: "Doorka, Ingiriisi", gender: "Jinsi", man: "Nin", woman: "Haweeney", unknown: "Lama hubo", youth: "Dhallinyaro", yes: "Haa", no: "Maya", crossSection: "Qaybta bulshada", civilSociety: "Bulshada rayidka", governmentAdmin: "Dowladda / maamulka", elder: "Oday", religiousLeader: "Hoggaamiye diimeed", ipn: "Xubin IPN", notIpn: "Maya", participation: "Ka qaybgal", live: "Toos", recorded: "La duubay", export: "Soo dejiso xogta dadweynaha", exportHelp: "Waxay ka saartaa tixraaca riwaayadda ee gudaha.", selectEpisode: "Ka dooro qayb liisaska kore ama liiska bidix si aad u bilowdo.", allComplete: "Dhammaan waa dhammaystiran yihiin.", chooseProgramme: "Dooro barnaamij", episodeRequired: "Dooro barnaamij oo geli lambarka qaybta.", episodeExists: "Lambarkan qaybta mar hore ayuu uga jiraa barnaamijkan.", unsaved: "Waxaad leedahay isbeddello aan la kaydin. Ma sii socotaa?", saveFailed: "Kaydintu way fashilantay. Mar kale isku day.", loadFailed: "Xogta maamulka lama furi karin.", loading: "Xogta waa la furayaa…", fieldsMissing: "meelood ayaa ka maqan",
   },
   en: {
     editor: "Archive editor", internal: "Private team workspace", back: "View archive", all: "All", missing: "Needs work", complete: "Complete",
-    episodes: "Episodes", needsWork: "Need information", titleGaps: "Missing titles", guestGaps: "Missing guest info", saved: "Saved", saving: "Saving…", save: "Save changes", savedBy: "Last saved by", search: "Search episode, title or guest", noEpisodes: "No episodes found.", episode: "Episode", overview: "Episode details", programme: "Programme", number: "Number", date: "Broadcast date", station: "Station", status: "Publication status", ready: "Ready", incomplete: "Incomplete", somaliTitle: "Somali title", englishTitle: "English title", media: "Media", cover: "Episode cover", audio: "Audio", video: "Video", urlOptional: "Link, if available", drama: "Drama", dramaType: "Drama type", newDrama: "New", repeatedDrama: "Repeated", episodeNumber: "Episode #", internalHelp: "Select or type the episode number where this drama first appeared. Internal only.", synopsisSo: "Drama synopsis, Somali", synopsisEn: "Drama synopsis, English", guests: "Guests", addGuest: "Add guest", addEpisode: "Add episode", newEpisode: "New episode", remove: "Remove", guestName: "Name", roleSo: "Role, Somali", roleEn: "Role, English", gender: "Gender", man: "Man", woman: "Woman", unknown: "Unknown", youth: "Youth", yes: "Yes", no: "No", crossSection: "Cross-section", civilSociety: "Civil society", governmentAdmin: "Government / administration", elder: "Elder", religiousLeader: "Religious leader", ipn: "IPN membership", notIpn: "No", participation: "Participation", live: "Live", recorded: "Recorded", export: "Download public data", exportHelp: "The internal repeat reference is removed.", selectEpisode: "Choose an episode from the attention lists or the episode browser.", allComplete: "Everything is complete.", chooseProgramme: "Choose programme", episodeRequired: "Choose a programme and enter an episode number.", episodeExists: "That episode number already exists in this programme.", unsaved: "You have unsaved changes. Continue?", saveFailed: "Saving failed. Please try again.", loadFailed: "The admin data could not be opened.", loading: "Loading the workspace…", fieldsMissing: "fields missing",
+    episodes: "Episodes", needsWork: "Need information", titleGaps: "Missing titles", guestGaps: "Missing guest info", saved: "Saved", saving: "Saving…", save: "Save changes", savedBy: "Last saved by", search: "Search episode, title or guest", noEpisodes: "No episodes found.", episode: "Episode", overview: "Episode details", programme: "Programme", number: "Number", date: "Broadcast date", station: "Station", status: "Publication status", ready: "Ready", incomplete: "Incomplete", somaliTitle: "Somali title", englishTitle: "English title", media: "Media", cover: "Episode cover", audio: "Audio", video: "Video", urlOptional: "Link, if available", drama: "Drama", dramaType: "Drama type", noneDrama: "None", newDrama: "New", repeatedDrama: "Repeated", noDramaUsed: "No drama was used", repeatedSynopsis: "Synopsis from the selected episode", synopsisPending: "No synopsis has been added yet.", repeatRequired: "Choose the episode where this drama first appeared.", episodeNumber: "Episode #", internalHelp: "Select or type the episode number where this drama first appeared. Internal only.", synopsisSo: "Drama synopsis, Somali", synopsisEn: "Drama synopsis, English", guests: "Guests", addGuest: "Add guest", addEpisode: "Add episode", newEpisode: "New episode", remove: "Remove", guestName: "Name", roleSo: "Role, Somali", roleEn: "Role, English", gender: "Gender", man: "Man", woman: "Woman", unknown: "Unknown", youth: "Youth", yes: "Yes", no: "No", crossSection: "Cross-section", civilSociety: "Civil society", governmentAdmin: "Government / administration", elder: "Elder", religiousLeader: "Religious leader", ipn: "IPN membership", notIpn: "No", participation: "Participation", live: "Live", recorded: "Recorded", export: "Download public data", exportHelp: "The internal repeat reference is removed.", selectEpisode: "Choose an episode from the attention lists or the episode browser.", allComplete: "Everything is complete.", chooseProgramme: "Choose programme", episodeRequired: "Choose a programme and enter an episode number.", episodeExists: "That episode number already exists in this programme.", unsaved: "You have unsaved changes. Continue?", saveFailed: "Saving failed. Please try again.", loadFailed: "The admin data could not be opened.", loading: "Loading the workspace…", fieldsMissing: "fields missing",
   },
 } as const;
 
@@ -34,6 +34,7 @@ function clone<T>(value: T): T {
 function draftFor(episode: Episode, data: Baseline, internalByEpisode: Map<string, InternalEpisode>): Draft {
   const internal = internalByEpisode.get(episode.id);
   const sourceEpisodeId = internal?.repeat_source_episode_id || episode.drama.source_episode_id;
+  const relation = episode.drama.relation === "unresolved" ? "repeated" : episode.drama.relation;
   const drama = data.dramas.find((item) => item.id === episode.drama.id) || {
     id: episode.drama.id,
     programme_id: episode.programme_id,
@@ -44,10 +45,10 @@ function draftFor(episode: Episode, data: Baseline, internalByEpisode: Map<strin
     missing_fields: ["synopsis.so", "synopsis.en"],
   };
   return {
-    episode: { ...clone(episode), drama: { ...clone(episode.drama), source_episode_id: sourceEpisodeId || null } },
+    episode: { ...clone(episode), drama: { ...clone(episode.drama), relation, source_episode_id: sourceEpisodeId || null } },
     drama: clone(drama),
     guests: clone(data.guests.filter((guest) => guest.episode_id === episode.id)),
-    repeat_drama_internal: episode.drama.relation === "repeated" && sourceEpisodeId
+    repeat_drama_internal: relation === "repeated" && sourceEpisodeId
       ? String(data.episodes.find((item) => item.id === sourceEpisodeId)?.episode_number || internal?.repeat_drama_raw || "")
       : "",
   };
@@ -59,7 +60,6 @@ function gaps(draft: Draft) {
   if (missing(draft.episode.title.en)) result.push("title.en");
   if (missing(draft.episode.broadcast_date)) result.push("broadcast_date");
   if (!draft.episode.station_id) result.push("station");
-  if (draft.episode.drama.relation === "unresolved") result.push("drama.reference");
   if (draft.episode.drama.relation === "repeated" && !draft.episode.drama.source_episode_id) result.push("drama.source");
   draft.guests.forEach((guest, index) => {
     if (missing(guest.guest_name)) result.push(`guest.${index}.name`);
@@ -229,10 +229,10 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
         publication_status: "incomplete",
         availability: { image: false, audio: false, video: false },
         media: { cover_image_url: null, audio_url: null, video_url: null },
-        drama: { id: `${id}-drama`, relation: "unresolved", source_episode_id: null },
+        drama: { id: "", relation: "none", source_episode_id: null },
         missing_fields: [],
       },
-      drama: { id: `${id}-drama`, programme_id: "", source_episode_id: null, title: { so: "", en: "" }, synopsis: { so: "", en: "" }, data_status: "incomplete", missing_fields: [] },
+      drama: { id: "", programme_id: "", source_episode_id: null, title: { so: "", en: "" }, synopsis: { so: "", en: "" }, data_status: "incomplete", missing_fields: [] },
       guests: [],
       repeat_drama_internal: "",
     });
@@ -258,6 +258,11 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
     const canonicalId = `${next.episode.programme_id}-${String(next.episode.episode_number).padStart(3, "0")}`;
     if (adding && allDrafts.has(canonicalId)) {
       window.alert(t.episodeExists);
+      setSaving(false);
+      return;
+    }
+    if (next.episode.drama.relation === "repeated" && !next.episode.drama.source_episode_id) {
+      window.alert(t.repeatRequired);
       setSaving(false);
       return;
     }
@@ -306,7 +311,7 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
 
   const currentProgramme = draft ? programmeMap.get(draft.episode.programme_id) : undefined;
   const stationOptions = currentProgramme ? baseline.stations.filter((station) => currentProgramme.station_ids.includes(station.id)) : [];
-  const sourceEpisodes = draft ? effectiveEpisodes.filter((episode) => episode.programme_id === draft.episode.programme_id && episode.id !== draft.episode.id).sort((a, b) => a.episode_number - b.episode_number) : [];
+  const sourceEpisodes = draft ? effectiveEpisodes.filter((episode) => episode.programme_id === draft.episode.programme_id && episode.id !== draft.episode.id && (episode.drama.relation === "new" || episode.drama.relation === "repeated")).sort((a, b) => a.episode_number - b.episode_number) : [];
 
   return (
     <div className="admin-shell">
@@ -352,9 +357,48 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
               </EditorSection>
 
               <EditorSection title={t.drama} number="02" tone="dark">
-                <div className={`admin-field ${draft.episode.drama.relation === "unresolved" ? "missing" : ""}`}><span>{t.dramaType}{draft.episode.drama.relation === "unresolved" && <i>!</i>}</span><div className="radio-choice">{(["new", "repeated"] as const).map((relation) => <label key={relation}><input type="radio" name="drama-relation" value={relation} checked={draft.episode.drama.relation === relation} onChange={() => updateDraft((current) => { current.episode.drama.relation = relation; if (relation === "new") { current.repeat_drama_internal = ""; current.episode.drama.source_episode_id = current.episode.id; current.episode.drama.id = `${current.episode.programme_id}-drama-${String(current.episode.episode_number).padStart(3, "0")}`; current.drama.id = current.episode.drama.id; current.drama.source_episode_id = current.episode.id; current.drama.title = clone(current.episode.title); } else { current.episode.drama.source_episode_id = null; } return current; })} /><span>{relation === "new" ? t.newDrama : t.repeatedDrama}</span></label>)}</div></div>
-                {draft.episode.drama.relation === "repeated" && <Field label={t.episodeNumber} missing={!draft.episode.drama.source_episode_id}><input className="internal-input" list={`source-episodes-${draft.episode.programme_id}`} inputMode="numeric" value={draft.repeat_drama_internal} onChange={(event) => updateDraft((current) => { const typed = event.target.value; const episodeNumber = typed.trim().match(/^#?(\d+)/)?.[1]; const source = sourceEpisodes.find((item) => String(item.episode_number) === episodeNumber); current.repeat_drama_internal = typed; current.episode.drama.source_episode_id = source?.id || null; if (source) { current.episode.drama.id = source.drama.id; const sourceDraft = allDrafts.get(source.id); if (sourceDraft) current.drama = clone(sourceDraft.drama); current.drama.title = clone(source.title); } return current; })} placeholder="#" /><small className="field-help">🔒 {t.internalHelp}</small><datalist id={`source-episodes-${draft.episode.programme_id}`}>{sourceEpisodes.map((episode) => <option value={`${episode.episode_number}. ${displayTitle(allDrafts.get(episode.id)!, language)}`} key={episode.id} />)}</datalist></Field>}
-                <div className="form-grid two"><Field label={t.synopsisSo} missing={missing(draft.drama.synopsis.so)}><textarea rows={5} value={draft.drama.synopsis.so === "?" ? "" : draft.drama.synopsis.so} onChange={(event) => updateDraft((current) => { current.drama.synopsis.so = event.target.value; return current; })} /></Field><Field label={t.synopsisEn} missing={missing(draft.drama.synopsis.en)}><textarea rows={5} value={draft.drama.synopsis.en === "?" ? "" : draft.drama.synopsis.en} onChange={(event) => updateDraft((current) => { current.drama.synopsis.en = event.target.value; return current; })} /></Field></div>
+                <div className={`admin-field ${draft.episode.drama.relation === "repeated" && !draft.episode.drama.source_episode_id ? "missing" : ""}`}><span>{t.dramaType}{draft.episode.drama.relation === "repeated" && !draft.episode.drama.source_episode_id && <i>!</i>}</span><div className="radio-choice">{(["none", "new", "repeated"] as const).map((relation) => <label key={relation}><input type="radio" name="drama-relation" value={relation} checked={draft.episode.drama.relation === relation} onChange={() => updateDraft((current) => {
+                  const previousRelation = current.episode.drama.relation;
+                  current.episode.drama.relation = relation;
+                  current.repeat_drama_internal = "";
+                  if (relation === "none") {
+                    current.episode.drama.id = "";
+                    current.episode.drama.source_episode_id = null;
+                  } else if (relation === "new") {
+                    current.episode.drama.source_episode_id = current.episode.id;
+                    current.episode.drama.id = `${current.episode.programme_id}-drama-${String(current.episode.episode_number).padStart(3, "0")}`;
+                    current.drama.id = current.episode.drama.id;
+                    current.drama.programme_id = current.episode.programme_id;
+                    current.drama.source_episode_id = current.episode.id;
+                    current.drama.title = clone(current.episode.title);
+                    if (previousRelation !== "new") current.drama.synopsis = { so: "", en: "" };
+                  } else {
+                    current.episode.drama.id = "";
+                    current.episode.drama.source_episode_id = null;
+                  }
+                  return current;
+                })} /><span>{relation === "none" ? t.noneDrama : relation === "new" ? t.newDrama : t.repeatedDrama}</span></label>)}</div></div>
+
+                {draft.episode.drama.relation === "none" && <p className="drama-none-note">{t.noDramaUsed}</p>}
+
+                {draft.episode.drama.relation === "repeated" && <Field label={t.episodeNumber} missing={!draft.episode.drama.source_episode_id}><input className="internal-input" list={`source-episodes-${draft.episode.programme_id}`} inputMode="numeric" value={draft.repeat_drama_internal} onChange={(event) => updateDraft((current) => {
+                  const typed = event.target.value;
+                  const episodeNumber = typed.trim().match(/^#?(\d+)/)?.[1];
+                  const source = sourceEpisodes.find((item) => String(item.episode_number) === episodeNumber);
+                  current.repeat_drama_internal = typed;
+                  current.episode.drama.source_episode_id = source?.id || null;
+                  current.episode.drama.id = source?.drama.id || "";
+                  if (source) {
+                    const sourceDraft = allDrafts.get(source.id);
+                    if (sourceDraft) current.drama = clone(sourceDraft.drama);
+                    current.drama.title = clone(source.title);
+                  }
+                  return current;
+                })} placeholder="#" /><small className="field-help">🔒 {t.internalHelp}</small><datalist id={`source-episodes-${draft.episode.programme_id}`}>{sourceEpisodes.map((episode) => <option value={`${episode.episode_number}. ${displayTitle(allDrafts.get(episode.id)!, language)}`} key={episode.id} />)}</datalist></Field>}
+
+                {draft.episode.drama.relation === "new" && <div className="form-grid two"><Field label={t.synopsisSo} missing={missing(draft.drama.synopsis.so)}><textarea rows={5} value={draft.drama.synopsis.so === "?" ? "" : draft.drama.synopsis.so} onChange={(event) => updateDraft((current) => { current.drama.synopsis.so = event.target.value; return current; })} /></Field><Field label={t.synopsisEn} missing={missing(draft.drama.synopsis.en)}><textarea rows={5} value={draft.drama.synopsis.en === "?" ? "" : draft.drama.synopsis.en} onChange={(event) => updateDraft((current) => { current.drama.synopsis.en = event.target.value; return current; })} /></Field></div>}
+
+                {draft.episode.drama.relation === "repeated" && draft.episode.drama.source_episode_id && <div className="synopsis-preview"><strong>{t.repeatedSynopsis}</strong><div className="synopsis-preview-grid"><div><span>{t.synopsisSo}</span><p>{missing(draft.drama.synopsis.so) ? t.synopsisPending : draft.drama.synopsis.so}</p></div><div><span>{t.synopsisEn}</span><p>{missing(draft.drama.synopsis.en) ? t.synopsisPending : draft.drama.synopsis.en}</p></div></div></div>}
               </EditorSection>
 
               <EditorSection title={t.guests} number="03">
