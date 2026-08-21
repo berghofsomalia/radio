@@ -96,6 +96,20 @@ main { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
 .metrics strong { font-size: 30px; letter-spacing: -0.04em; }
 .metrics span { font-size: 11px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .12em; }
 
+.broadcast-stations { margin-top: 58px; }
+.broadcast-stations-heading { margin-bottom: 24px; }
+.broadcast-stations-heading .eyebrow { margin-bottom: 8px; color: var(--teal); opacity: 1; }
+.broadcast-stations-heading h2 { margin: 0; font-size: clamp(30px, 4vw, 44px); line-height: 1; letter-spacing: -.045em; }
+.station-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.station-card { min-width: 0; min-height: 134px; padding: 20px; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 18px; background: var(--white); position: relative; overflow: hidden; }
+.station-card.primary { border-color: rgba(24, 107, 104, .42); box-shadow: inset 0 4px 0 var(--teal); }
+.station-card header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.station-card header > span { color: var(--ink-soft); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.station-card em { padding: 5px 8px; border-radius: 999px; background: #e8f1ed; color: var(--teal); font-size: 8px; font-style: normal; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+.station-card strong { margin-top: 18px; font-size: 17px; line-height: 1.25; letter-spacing: -.015em; }
+.station-card small { margin-top: 6px; color: var(--ink-soft); font-size: 12px; }
+.broadcast-stations + .archive-section { padding-top: 72px; }
+
 .programme-pair { margin-top: 92px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .programme-panel { min-height: 245px; position: relative; overflow: hidden; padding: 36px; border: 0; border-radius: 28px; text-align: left; color: white; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
 .programme-panel:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
@@ -202,6 +216,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .metrics div { padding: 10px 4px; }
   .metrics div:nth-child(3n) { border-right: 0; }
   .metrics div:nth-child(-n+3) { border-bottom: 1px solid var(--line); }
+  .station-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .episode-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .episode-hero { grid-template-columns: 1fr; }
   .episode-number { display: none; }
@@ -218,6 +233,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .metrics { width: calc(100% - 24px); padding: 12px 8px; }
   .metrics strong { font-size: 22px; }
   .metrics span { font-size: 8px; letter-spacing: .06em; text-align: center; }
+  .broadcast-stations { margin-top: 44px; }
+  .station-grid { grid-template-columns: 1fr; }
+  .station-card { min-height: 118px; }
   .programme-pair { margin-top: 70px; grid-template-columns: 1fr; }
   .programme-panel { min-height: 220px; padding: 28px; }
   .programme-panel-logo { width: 125px; height: 125px; right: 20px; top: 45px; border-radius: 23px; }

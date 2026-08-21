@@ -63,6 +63,12 @@ type ArchiveData = {
   dictionaries: Record<Language, Dictionary>;
 };
 type Route = { programme: string | null; episode: string | null };
+type BroadcastStation = {
+  location: string;
+  name: string;
+  frequency?: string;
+  primary?: boolean;
+};
 
 const programmeLogos: Record<string, string> = {
   "garasho-wadaag": "logos/garasho-wadaag.png",
@@ -72,6 +78,21 @@ const programmeLogos: Record<string, string> = {
 const coverPrefixes: Record<string, string> = {
   "garasho-wadaag": "Garasho-wadaag",
   hiloow: "Hiloow",
+};
+
+const programmeStations: Record<string, BroadcastStation[]> = {
+  hiloow: [
+    { location: "Jowhar", name: "Radio Jowhar", frequency: "FM 89.5 MHz", primary: true },
+    { location: "Balcad", name: "Radio Balcad", frequency: "FM 87.9 MHz" },
+    { location: "Beledweyne", name: "Radio Wadi Beledweyne", frequency: "FM 89.5 MHz" },
+  ],
+  "garasho-wadaag": [
+    { location: "Gaalkacyo", name: "Radio Deegan", frequency: "FM 91.5 MHz", primary: true },
+    { location: "Dhusamareeb", name: "Radio Galgaduud", frequency: "FM 88.5 MHz" },
+    { location: "Cadaado", name: "Radio Codka Gobolada Dhexe", frequency: "FM 89.9 MHz" },
+    { location: "Caabudwaaq", name: "Radio Daljir" },
+    { location: "Hobyo", name: "HBC Radio Hobyo", frequency: "FM 90.0 MHz" },
+  ],
 };
 
 function episodeCoverPath(episode: Episode) {
@@ -286,6 +307,8 @@ function ArchiveView({ data, language, selectedProgramme, search, setSearch, yea
     })
     .sort(episodeSort);
 
+  const broadcastStations = programme ? programmeStations[programme.id] || [] : [];
+
   const metrics: Array<[number, string]> = [
     [metricEpisodes.length, t("episodes")],
     [namedGuests.length, t("guest_voices")],
@@ -316,6 +339,27 @@ function ArchiveView({ data, language, selectedProgramme, search, setSearch, yea
       <section className="metrics" aria-label="Archive statistics">
         {metrics.map(([number, label]) => <div key={label}><strong>{number}</strong><span>{label}</span></div>)}
       </section>
+
+      {programme && broadcastStations.length > 0 && (
+        <section className="broadcast-stations" aria-labelledby="broadcast-stations-title">
+          <div className="broadcast-stations-heading">
+            <p className="eyebrow">{programme.name[language]}</p>
+            <h2 id="broadcast-stations-title">{t("broadcast_stations")}</h2>
+          </div>
+          <div className="station-grid">
+            {broadcastStations.map((station) => (
+              <article className={`station-card ${station.primary ? "primary" : ""}`} key={station.location}>
+                <header>
+                  <span>{station.location}</span>
+                  {station.primary && <em>{t("primary_station")}</em>}
+                </header>
+                <strong>{station.name}</strong>
+                {station.frequency && <small>{station.frequency}</small>}
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
 
       {!selectedProgramme && (
         <section className="programme-pair">
