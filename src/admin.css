@@ -70,6 +70,8 @@
 .admin-search { margin: 14px 14px 8px; display: flex; align-items: center; gap: 8px; border: 1px solid var(--line); background: white; border-radius: 11px; padding: 0 12px; }
 .admin-search span { color: var(--muted); font-size: 20px; }
 .admin-search input { width: 100%; border: 0; outline: 0; background: transparent; min-height: 44px; color: var(--ink); font-size: 12px; }
+.admin-search-clear { width: 24px; height: 24px; flex: 0 0 24px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: #e9e6de; color: var(--muted); cursor: pointer; font-size: 17px; line-height: 1; }
+.admin-search-clear:hover { background: var(--ink); color: white; }
 .status-tabs { margin: 0 14px 12px; display: grid; grid-template-columns: repeat(3, 1fr); background: #f1eee6; border-radius: 12px; padding: 3px; }
 .status-tabs button { min-height: 34px; }
 .status-tabs button.active { background: white; box-shadow: 0 1px 4px rgba(17,47,45,.08); }

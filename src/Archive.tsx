@@ -378,7 +378,7 @@ function ArchiveView({ data, language, selectedProgramme, search, setSearch, yea
           <p>{t("showing")} <strong>{filtered.length}</strong> {t("results")}</p>
         </div>
         <div className="filters">
-          <label className="search-field"><span className="sr-only">{t("search_label")}</span><span aria-hidden="true">⌕</span><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t("search_placeholder")} /></label>
+          <div className="search-field"><label className="sr-only" htmlFor="archive-search">{t("search_label")}</label><span aria-hidden="true">⌕</span><input id="archive-search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t("search_placeholder")} />{search && <button className="search-clear" type="button" aria-label={t("clear_search")} onClick={(event) => { setSearch(""); event.currentTarget.parentElement?.querySelector<HTMLInputElement>("input")?.focus(); }}>×</button>}</div>
           <select aria-label={t("all_years")} value={year} onChange={(event) => setYear(event.target.value)}>
             <option value="all">{t("all_years")}</option>{years.map((item) => <option value={item} key={item}>{item}</option>)}
           </select>

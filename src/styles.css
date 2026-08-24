@@ -130,6 +130,8 @@ main { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
 .search-field { min-height: 54px; padding: 0 18px; display: flex; align-items: center; gap: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); }
 .search-field > span[aria-hidden] { font-size: 26px; transform: rotate(-15deg); color: var(--ink-soft); }
 .search-field input { width: 100%; border: 0; outline: 0; background: transparent; color: var(--ink); }
+.search-clear { width: 28px; height: 28px; flex: 0 0 28px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: var(--paper-deep); color: var(--ink-soft); cursor: pointer; font-size: 19px; line-height: 1; }
+.search-clear:hover { background: var(--ink); color: white; }
 .filters select { padding: 0 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); color: var(--ink); outline: 0; }
 
 .episode-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
