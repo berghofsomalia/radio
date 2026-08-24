@@ -79,9 +79,12 @@ function episodeLabel(number: number, language: Language) {
   return language === "so" ? `Taxanaha ${number}-aad` : `Episode ${number}`;
 }
 
-function compactEpisodeLabel(number: number, broadcastDate: string) {
-  const formattedNumber = String(number).padStart(3, "0");
-  return `${formattedNumber} - ${missing(broadcastDate) ? "?" : broadcastDate}`;
+function paddedEpisodeNumber(number: number) {
+  return String(number).padStart(3, "0");
+}
+
+function displayedBroadcastDate(broadcastDate: string) {
+  return missing(broadcastDate) ? "?" : broadcastDate;
 }
 
 export default function AdminApp() {
@@ -333,7 +336,7 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
               {filteredEpisodes.map((episode) => {
                 const item = allDrafts.get(episode.id)!;
                 const itemGaps = gaps(item);
-                return <button className={`${selectedId === episode.id ? "active" : ""} ${itemGaps.length ? "incomplete" : "complete"}`} onClick={() => selectEpisode(episode.id)} key={episode.id}><img src={logos[episode.programme_id]} alt="" /><strong className="episode-row-label">{compactEpisodeLabel(episode.episode_number, episode.broadcast_date)}</strong><i>{itemGaps.length}</i></button>;
+                return <button className={`${selectedId === episode.id ? "active" : ""} ${itemGaps.length ? "incomplete" : "complete"}`} onClick={() => selectEpisode(episode.id)} key={episode.id}><img src={logos[episode.programme_id]} alt="" /><span className="episode-row-copy"><strong>{paddedEpisodeNumber(episode.episode_number)}. {displayTitle(item, language)}</strong><small>{displayedBroadcastDate(episode.broadcast_date)}</small></span><i>{itemGaps.length}</i></button>;
               })}
               {!filteredEpisodes.length && <p className="browser-empty">{t.noEpisodes}</p>}
             </div>
@@ -341,7 +344,7 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
 
           <section className="episode-editor">
             {!draft ? <div className="editor-empty">{t.selectEpisode}</div> : <>
-              <div className={`editor-banner ${draft.episode.programme_id || "new"}`}><div>{draft.episode.programme_id && <img src={logos[draft.episode.programme_id]} alt="" />}<strong>{draft.episode.episode_number ? compactEpisodeLabel(draft.episode.episode_number, draft.episode.broadcast_date) : t.newEpisode}</strong></div><span className={gaps(draft).length ? "gap-count" : "gap-count complete"}>{gaps(draft).length}</span></div>
+              <div className={`editor-banner ${draft.episode.programme_id || "new"}`}><div>{draft.episode.programme_id && <img src={logos[draft.episode.programme_id]} alt="" />}<span className="episode-banner-copy"><strong>{draft.episode.episode_number ? `${paddedEpisodeNumber(draft.episode.episode_number)}. ${displayTitle(draft, language)}` : t.newEpisode}</strong><small>{displayedBroadcastDate(draft.episode.broadcast_date)}</small></span></div><span className={gaps(draft).length ? "gap-count" : "gap-count complete"}>{gaps(draft).length}</span></div>
 
               <EditorSection title={t.overview} number="01">
                 <div className="form-grid four">
