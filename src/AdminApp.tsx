@@ -87,6 +87,15 @@ function displayedBroadcastDate(broadcastDate: string) {
   return missing(broadcastDate) ? "?" : broadcastDate;
 }
 
+function programmeScopeFor(moderator: Moderator) {
+  const username = moderator.email.split("@")[0].toLocaleLowerCase().replace(/[^a-z0-9]/g, "");
+  const role = moderator.role.toLocaleLowerCase();
+  if (role === "admin" || username === "mir" || username === "admin") return null;
+  if (username === "hiloow") return new Set(["hiloow"]);
+  if (username === "garashowadaag") return new Set(["garasho-wadaag"]);
+  return new Set<string>();
+}
+
 export default function AdminApp() {
   const [session, setSession] = useState<Session | null>(null);
   const [moderator, setModerator] = useState<Moderator | null>(null);
@@ -165,6 +174,7 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
   const [loadError, setLoadError] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<string | null>(null);
   const t = copy[language];
+  const programmeScope = useMemo(() => programmeScopeFor(moderator), [moderator]);
 
   useEffect(() => {
     Promise.all([loadArchive(), loadInternalEpisodes()]).then(([archive, internal]) => {
@@ -184,7 +194,10 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  const effectiveEpisodes = useMemo(() => baseline?.episodes || [] as Episode[], [baseline]);
+  const effectiveEpisodes = useMemo(() => {
+    const episodes = baseline?.episodes || [] as Episode[];
+    return programmeScope ? episodes.filter((episode) => programmeScope.has(episode.programme_id)) : episodes;
+  }, [baseline, programmeScope]);
 
   const internalByEpisode = useMemo(() => new Map(internalEpisodes.map((item) => [item.episode_id, item])), [internalEpisodes]);
 
@@ -196,8 +209,10 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
   if (loadError) return <main className="admin-state">{t.loadFailed}</main>;
   if (!baseline) return <main className="admin-state"><span />{t.loading}</main>;
 
-  const programmeMap = new Map(baseline.programmes.map((item) => [item.id, item]));
-  const guestNames = Array.from(new Set(baseline.guests.map((guest) => guest.guest_name).filter((name) => !missing(name)))).sort();
+  const availableProgrammes = programmeScope ? baseline.programmes.filter((programme) => programmeScope.has(programme.id)) : baseline.programmes;
+  const programmeMap = new Map(availableProgrammes.map((item) => [item.id, item]));
+  const effectiveEpisodeIds = new Set(effectiveEpisodes.map((episode) => episode.id));
+  const guestNames = Array.from(new Set(baseline.guests.filter((guest) => effectiveEpisodeIds.has(guest.episode_id)).map((guest) => guest.guest_name).filter((name) => !missing(name)))).sort();
   const loweredQuery = query.trim().toLocaleLowerCase();
   const filteredEpisodes = effectiveEpisodes.filter((episode) => {
     const item = allDrafts.get(episode.id)!;
@@ -222,11 +237,12 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
   const addEpisode = () => {
     if (dirty && !window.confirm(t.unsaved)) return;
     const id = `new-${Date.now()}`;
+    const defaultProgrammeId = availableProgrammes.length === 1 ? availableProgrammes[0].id : "";
     setSelectedId(id);
     setDraft({
       episode: {
         id,
-        programme_id: "",
+        programme_id: defaultProgrammeId,
         episode_number: 0,
         title: { so: "", en: "" },
         broadcast_date: "",
@@ -237,7 +253,7 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
         drama: { id: "", relation: "none", source_episode_id: null },
         missing_fields: [],
       },
-      drama: { id: "", programme_id: "", source_episode_id: null, title: { so: "", en: "" }, synopsis: { so: "", en: "" }, data_status: "incomplete", missing_fields: [] },
+      drama: { id: "", programme_id: defaultProgrammeId, source_episode_id: null, title: { so: "", en: "" }, synopsis: { so: "", en: "" }, data_status: "incomplete", missing_fields: [] },
       guests: [],
       repeat_drama_internal: "",
     });
@@ -329,7 +345,7 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
         <section className="admin-workspace">
           <aside className="episode-browser">
             <div className="episode-browser-actions"><button className="add-episode-button" onClick={addEpisode}><span>＋</span>{t.addEpisode}</button></div>
-            <div className="programme-tabs"><button className={programmeFilter === "all" ? "active" : ""} onClick={() => setProgrammeFilter("all")}>{t.all}</button>{baseline.programmes.map((programme) => <button className={programmeFilter === programme.id ? "active" : ""} onClick={() => setProgrammeFilter(programme.id)} key={programme.id}><img src={logos[programme.id]} alt="" />{programme.name[language]}</button>)}</div>
+            <div className={`programme-tabs ${availableProgrammes.length === 1 ? "single" : ""}`}>{availableProgrammes.length > 1 && <button className={programmeFilter === "all" ? "active" : ""} onClick={() => setProgrammeFilter("all")}>{t.all}</button>}{availableProgrammes.map((programme) => <button className={programmeFilter === programme.id || availableProgrammes.length === 1 ? "active" : ""} onClick={() => setProgrammeFilter(programme.id)} key={programme.id}><img src={logos[programme.id]} alt="" />{programme.name[language]}</button>)}</div>
             <label className="admin-search"><span>⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={t.search} /></label>
             <div className="status-tabs"><button className={statusFilter === "missing" ? "active" : ""} onClick={() => setStatusFilter("missing")}>{t.missing}</button><button className={statusFilter === "all" ? "active" : ""} onClick={() => setStatusFilter("all")}>{t.all}</button><button className={statusFilter === "complete" ? "active" : ""} onClick={() => setStatusFilter("complete")}>{t.complete}</button></div>
             <div className="episode-list">
@@ -348,7 +364,7 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
 
               <EditorSection title={t.overview} number="01">
                 <div className="form-grid four">
-                  <Field label={t.programme} missing={!draft.episode.programme_id}><select value={draft.episode.programme_id} onChange={(event) => updateDraft((current) => { current.episode.programme_id = event.target.value; current.episode.station_id = null; current.drama.programme_id = event.target.value; return current; })}><option value="">{t.chooseProgramme}</option>{baseline.programmes.map((programme) => <option value={programme.id} key={programme.id}>{programme.name[language]}</option>)}</select></Field>
+                  <Field label={t.programme} missing={!draft.episode.programme_id}><select value={draft.episode.programme_id} onChange={(event) => updateDraft((current) => { current.episode.programme_id = event.target.value; current.episode.station_id = null; current.drama.programme_id = event.target.value; return current; })}><option value="">{t.chooseProgramme}</option>{availableProgrammes.map((programme) => <option value={programme.id} key={programme.id}>{programme.name[language]}</option>)}</select></Field>
                   <Field label={t.number} missing={!draft.episode.episode_number}><input type="number" min="1" value={draft.episode.episode_number || ""} onChange={(event) => updateDraft((current) => { current.episode.episode_number = Number(event.target.value); return current; })} /></Field>
                   <Field label={t.date} missing={missing(draft.episode.broadcast_date)}><input type="date" value={draft.episode.broadcast_date === "?" ? "" : draft.episode.broadcast_date} onChange={(event) => updateDraft((current) => { current.episode.broadcast_date = event.target.value; return current; })} /></Field>
                   <Field label={t.station} missing={!draft.episode.station_id}><select value={draft.episode.station_id || ""} onChange={(event) => updateDraft((current) => { current.episode.station_id = event.target.value || null; return current; })}><option value="">?</option>{stationOptions.map((station) => <option value={station.id} key={station.id}>{station.name[language]}</option>)}</select></Field>
