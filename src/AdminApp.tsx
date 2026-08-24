@@ -352,7 +352,7 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
               {filteredEpisodes.map((episode) => {
                 const item = allDrafts.get(episode.id)!;
                 const itemGaps = gaps(item);
-                return <button className={`${selectedId === episode.id ? "active" : ""} ${itemGaps.length ? "incomplete" : "complete"}`} onClick={() => selectEpisode(episode.id)} key={episode.id}><img src={logos[episode.programme_id]} alt="" /><span className="episode-row-copy"><strong>{paddedEpisodeNumber(episode.episode_number)}. {displayTitle(item, language)}</strong><small>{displayedBroadcastDate(episode.broadcast_date)}</small></span><i>{itemGaps.length}</i></button>;
+                return <button className={`${selectedId === episode.id ? "active" : ""} ${itemGaps.length ? "incomplete" : "complete"}`} onClick={() => selectEpisode(episode.id)} key={episode.id}><img src={logos[episode.programme_id]} alt="" /><span className="episode-row-copy"><strong>{paddedEpisodeNumber(episode.episode_number)}. {displayTitle(item, language)}</strong><small>{displayedBroadcastDate(episode.broadcast_date)}</small></span>{itemGaps.length > 0 && <i>{itemGaps.length}</i>}</button>;
               })}
               {!filteredEpisodes.length && <p className="browser-empty">{t.noEpisodes}</p>}
             </div>
@@ -360,7 +360,7 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
 
           <section className="episode-editor">
             {!draft ? <div className="editor-empty">{t.selectEpisode}</div> : <>
-              <div className={`editor-banner ${draft.episode.programme_id || "new"}`}><div>{draft.episode.programme_id && <img src={logos[draft.episode.programme_id]} alt="" />}<span className="episode-banner-copy"><strong>{draft.episode.episode_number ? `${paddedEpisodeNumber(draft.episode.episode_number)}. ${displayTitle(draft, language)}` : t.newEpisode}</strong><small>{displayedBroadcastDate(draft.episode.broadcast_date)}</small></span></div><span className={gaps(draft).length ? "gap-count" : "gap-count complete"}>{gaps(draft).length}</span></div>
+              <div className={`editor-banner ${draft.episode.programme_id || "new"}`}><div>{draft.episode.programme_id && <img src={logos[draft.episode.programme_id]} alt="" />}<span className="episode-banner-copy"><strong>{draft.episode.episode_number ? `${paddedEpisodeNumber(draft.episode.episode_number)}. ${displayTitle(draft, language)}` : t.newEpisode}</strong><small>{displayedBroadcastDate(draft.episode.broadcast_date)}</small></span></div>{gaps(draft).length > 0 && <span className="gap-count">{gaps(draft).length}</span>}</div>
 
               <EditorSection title={t.overview} number="01">
                 <div className="form-grid four">

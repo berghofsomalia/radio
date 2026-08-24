@@ -26,6 +26,7 @@
   "drama": "Riwaayadda raadiyaha",
   "new_drama": "Riwaayad cusub",
   "repeated_drama": "Riwaayad dib loo baahiyey",
+  "repeated_drama_from": "Riwaayad dib loo baahiyey oo laga soo qaatay Taxanaha {number}-aad",
   "unresolved_drama": "Tixraaca riwaayadda waa in la xaqiijiyaa",
   "first_broadcast": "Markii hore waxaa lala baahiyey Taxanaha {number}-aad",
   "synopsis_pending": "Dulmarka riwaayadda halkan ayaa lagu soo dari doonaa.",

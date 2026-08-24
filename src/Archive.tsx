@@ -155,7 +155,8 @@ function interpolate(template: string, values: Record<string, string | number>) 
 }
 
 function episodeLabel(number: number, language: Language, t: (key: string) => string) {
-  return language === "so" ? `Taxanaha ${number}-aad` : `${t("episode")} ${number}`;
+  const paddedNumber = String(number).padStart(3, "0");
+  return language === "so" ? `Taxanaha ${paddedNumber}-aad` : `${t("episode")} ${paddedNumber}`;
 }
 
 function episodeSort(a: Episode, b: Episode) {
@@ -415,7 +416,7 @@ function EpisodeCard({ episode, programme, station, guests, language, navigate, 
       </button>
       <div className="episode-card-body">
         <p className="card-meta">{formatDate(episode.broadcast_date, language)} · {station ? station.name[language] : "?"}</p>
-        <h3>{value(episode.title, language)}</h3>
+        <h3>{String(episode.episode_number).padStart(3, "0")}. {value(episode.title, language)}</h3>
         <div className="guest-preview">
           {guests.slice(0, 2).map((guest) => {
             const role = value(guest.role, language);
@@ -446,8 +447,7 @@ function EpisodeView({ episode, data, language, navigate, t }: {
   const previous = position > 0 ? programmeEpisodes[position - 1] : undefined;
   const next = position >= 0 && position < programmeEpisodes.length - 1 ? programmeEpisodes[position + 1] : undefined;
   const original = episode.drama.source_episode_id ? data.episodes.find((item) => item.id === episode.drama.source_episode_id) : undefined;
-  const relationLabel = episode.drama.relation === "none" ? t("no_drama") : episode.drama.relation === "new" ? t("new_drama") : episode.drama.relation === "repeated" ? t("repeated_drama") : t("unresolved_drama");
-  const dramaTitle = episode.drama.relation === "none" ? t("no_drama_used") : original ? value(original.title, language) : value(episode.title, language);
+  const relationLabel = episode.drama.relation === "none" ? t("no_drama") : episode.drama.relation === "new" ? t("new_drama") : episode.drama.relation === "repeated" && original ? interpolate(t("repeated_drama_from"), { number: String(original.episode_number).padStart(3, "0") }) : episode.drama.relation === "repeated" ? t("repeated_drama") : t("unresolved_drama");
 
   return (
     <main className="episode-page">
@@ -460,21 +460,18 @@ function EpisodeView({ episode, data, language, navigate, t }: {
         </div>
         <div className="episode-identity" aria-hidden="true">
           <EpisodeCoverImage key={episode.id} episode={episode} className="episode-detail-cover" loading="eager" />
-          <div className="episode-number">{String(episode.episode_number).padStart(2, "0")}</div>
         </div>
       </section>
 
       <section className={`drama-panel ${episode.drama.relation}`}>
         <div className="drama-heading">
-          <div><p className="eyebrow">{t("drama")}</p><h2>{dramaTitle}</h2></div>
-          <span className={`relation-chip ${episode.drama.relation}`}>{relationLabel}</span>
+          <div><p className="eyebrow">{t("drama")}</p><h2>{episode.drama.relation === "repeated" && original ? <button onClick={() => navigate({ programme: null, episode: original.id })}>{relationLabel}</button> : relationLabel}</h2></div>
         </div>
         {episode.drama.relation !== "none" && <p className={drama && value(drama.synopsis, language) !== "?" ? "" : "pending-copy"}>{drama && value(drama.synopsis, language) !== "?" ? value(drama.synopsis, language) : t("synopsis_pending")}</p>}
-        {episode.drama.relation === "repeated" && original && <button className="source-link" onClick={() => navigate({ programme: null, episode: original.id })}>{interpolate(t("first_broadcast"), { number: original.episode_number })} →</button>}
       </section>
 
       <section className="guests-section">
-        <div className="section-heading"><div><p className="eyebrow">{t("guest_voices")}</p><h2>{t("guests")}</h2></div><strong>{guests.length}</strong></div>
+        <div className="section-heading"><h2>{t("guests")}</h2><strong>{guests.length}</strong></div>
         {guests.length ? (
           <div className="guest-list">
             {guests.map((guest) => {
@@ -487,8 +484,8 @@ function EpisodeView({ episode, data, language, navigate, t }: {
       </section>
 
       <nav className="episode-pagination" aria-label="Episode navigation">
-        {previous ? <button onClick={() => navigate({ programme: null, episode: previous.id })}><small>{t("previous_episode")}</small><strong>← {value(previous.title, language)}</strong></button> : <span />}
-        {next ? <button onClick={() => navigate({ programme: null, episode: next.id })}><small>{t("next_episode")}</small><strong>{value(next.title, language)} →</strong></button> : <span />}
+        {previous ? <button onClick={() => navigate({ programme: null, episode: previous.id })}><small>{t("previous_episode")}</small><strong>← {episodeLabel(previous.episode_number, language, t)}. {value(previous.title, language)}</strong><span>{formatDate(previous.broadcast_date, language)}</span></button> : <span />}
+        {next ? <button onClick={() => navigate({ programme: null, episode: next.id })}><small>{t("next_episode")}</small><strong>{episodeLabel(next.episode_number, language, t)}. {value(next.title, language)} →</strong><span>{formatDate(next.broadcast_date, language)}</span></button> : <span />}
       </nav>
     </main>
   );

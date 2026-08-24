@@ -26,6 +26,7 @@
   "drama": "Radio drama",
   "new_drama": "New drama",
   "repeated_drama": "Repeated drama",
+  "repeated_drama_from": "Repeated drama from Episode {number}",
   "unresolved_drama": "Drama reference to confirm",
   "first_broadcast": "First broadcast with Episode {number}",
   "synopsis_pending": "The drama synopsis will be added here.",
