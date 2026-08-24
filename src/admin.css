@@ -77,11 +77,7 @@
 .episode-list > button:hover { background: #f7f5ef; }
 .episode-list > button.active { background: #e8f1ed; box-shadow: inset 3px 0 var(--teal); }
 .episode-list img { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; }
-.episode-list span { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
-.episode-list small { color: var(--muted); font-size: 9px; font-style: normal; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-.episode-list strong { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
-.episode-list em { color: #ae6120; font-size: 9px; font-style: normal; font-weight: 700; }
-.episode-list button.complete em { color: #3e7e5f; }
+.episode-list .episode-row-label { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; letter-spacing: .01em; }
 .episode-list button > i { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: #fff0d7; color: #a65b1b; font-size: 10px; font-style: normal; font-weight: 900; }
 .episode-list button.complete > i { background: #dcefe4; color: #28704d; }
 .browser-empty { padding: 30px; color: var(--muted); text-align: center; font-size: 13px; }
@@ -94,10 +90,8 @@
 .editor-banner.new { background: linear-gradient(115deg, #087f78, #174a47); }
 .editor-banner > div { display: flex; align-items: center; gap: 16px; }
 .editor-banner img { width: 70px; height: 70px; border-radius: 18px; object-fit: cover; box-shadow: 0 8px 24px rgba(0,0,0,.2); }
-.editor-banner span { display: flex; flex-direction: column; gap: 5px; }
-.editor-banner small { font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; opacity: .72; }
 .editor-banner strong { font-size: 25px; letter-spacing: -.03em; }
-.editor-banner .gap-count { border: 1px solid rgba(255,255,255,.35); border-radius: 999px; padding: 9px 13px; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.editor-banner .gap-count { width: 38px; height: 38px; flex: 0 0 38px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.35); border-radius: 50%; padding: 0; font-size: 12px; font-weight: 900; }
 .editor-banner .gap-count.complete { background: rgba(255,255,255,.16); }
 
 .editor-section { border-bottom: 1px solid var(--line); }
@@ -208,7 +202,6 @@
   .programme-tabs button { justify-content: flex-start; padding-left: 14px; }
   .editor-banner { padding: 18px; }
   .editor-banner img { width: 54px; height: 54px; border-radius: 13px; }
-  .editor-banner .gap-count { display: none; }
   .editor-section > header, .editor-section-body, .save-bar { padding-left: 18px; padding-right: 18px; }
   .form-grid.two, .form-grid.four, .radio-choice, .synopsis-preview-grid { grid-template-columns: 1fr; }
   .guest-editor-card { padding: 14px; }

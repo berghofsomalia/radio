@@ -79,6 +79,11 @@ function episodeLabel(number: number, language: Language) {
   return language === "so" ? `Taxanaha ${number}-aad` : `Episode ${number}`;
 }
 
+function compactEpisodeLabel(number: number, broadcastDate: string) {
+  const formattedNumber = String(number).padStart(3, "0");
+  return `${formattedNumber} - ${missing(broadcastDate) ? "?" : broadcastDate}`;
+}
+
 export default function AdminApp() {
   const [session, setSession] = useState<Session | null>(null);
   const [moderator, setModerator] = useState<Moderator | null>(null);
@@ -199,10 +204,7 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
     if (statusFilter === "complete" && hasGaps) return false;
     if (!loweredQuery) return true;
     return `${episode.episode_number} ${item.episode.title.so} ${item.episode.title.en} ${item.guests.map((guest) => guest.guest_name).join(" ")}`.toLocaleLowerCase().includes(loweredQuery);
-  }).sort((a, b) => {
-    const gapDelta = gaps(allDrafts.get(b.id)!).length - gaps(allDrafts.get(a.id)!).length;
-    return gapDelta || b.broadcast_date.localeCompare(a.broadcast_date) || b.episode_number - a.episode_number;
-  });
+  }).sort((a, b) => b.broadcast_date.localeCompare(a.broadcast_date) || b.episode_number - a.episode_number);
 
   const selectEpisode = (id: string) => {
     if (dirty && !window.confirm(t.unsaved)) return;
@@ -331,8 +333,7 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
               {filteredEpisodes.map((episode) => {
                 const item = allDrafts.get(episode.id)!;
                 const itemGaps = gaps(item);
-                const programme = programmeMap.get(episode.programme_id)!;
-                return <button className={`${selectedId === episode.id ? "active" : ""} ${itemGaps.length ? "incomplete" : "complete"}`} onClick={() => selectEpisode(episode.id)} key={episode.id}><img src={logos[episode.programme_id]} alt="" /><span><small>{programme.name[language]} · {episodeLabel(episode.episode_number, language)}</small><strong>{displayTitle(item, language)}</strong><em>{itemGaps.length ? `${itemGaps.length} ${t.fieldsMissing}` : t.complete}</em></span><i>{itemGaps.length || "✓"}</i></button>;
+                return <button className={`${selectedId === episode.id ? "active" : ""} ${itemGaps.length ? "incomplete" : "complete"}`} onClick={() => selectEpisode(episode.id)} key={episode.id}><img src={logos[episode.programme_id]} alt="" /><strong className="episode-row-label">{compactEpisodeLabel(episode.episode_number, episode.broadcast_date)}</strong><i>{itemGaps.length}</i></button>;
               })}
               {!filteredEpisodes.length && <p className="browser-empty">{t.noEpisodes}</p>}
             </div>
@@ -340,7 +341,7 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
 
           <section className="episode-editor">
             {!draft ? <div className="editor-empty">{t.selectEpisode}</div> : <>
-              <div className={`editor-banner ${draft.episode.programme_id || "new"}`}><div>{draft.episode.programme_id && <img src={logos[draft.episode.programme_id]} alt="" />}<span><small>{programmeMap.get(draft.episode.programme_id)?.name[language] || t.newEpisode}</small><strong>{draft.episode.episode_number ? episodeLabel(draft.episode.episode_number, language) : t.newEpisode}</strong></span></div><span className={gaps(draft).length ? "gap-count" : "gap-count complete"}>{gaps(draft).length ? `${gaps(draft).length} ${t.fieldsMissing}` : t.complete}</span></div>
+              <div className={`editor-banner ${draft.episode.programme_id || "new"}`}><div>{draft.episode.programme_id && <img src={logos[draft.episode.programme_id]} alt="" />}<strong>{draft.episode.episode_number ? compactEpisodeLabel(draft.episode.episode_number, draft.episode.broadcast_date) : t.newEpisode}</strong></div><span className={gaps(draft).length ? "gap-count" : "gap-count complete"}>{gaps(draft).length}</span></div>
 
               <EditorSection title={t.overview} number="01">
                 <div className="form-grid four">
