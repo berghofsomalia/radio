@@ -80,7 +80,7 @@ function episodeLabel(number: number, language: Language) {
 }
 
 function paddedEpisodeNumber(number: number) {
-  return String(number).padStart(3, "0");
+  return String(number);
 }
 
 function displayedBroadcastDate(broadcastDate: string) {
