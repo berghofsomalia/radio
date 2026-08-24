@@ -133,9 +133,9 @@ main { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
 .filters select { padding: 0 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); color: var(--ink); outline: 0; }
 
 .episode-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
-.episode-card { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 22px; background: var(--white); transition: transform .2s ease, box-shadow .2s ease; }
+.episode-card { min-width: 0; padding: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 22px; background: var(--white); color: inherit; cursor: pointer; font: inherit; text-align: left; transition: transform .2s ease, box-shadow .2s ease; }
 .episode-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-.episode-cover { width: 100%; height: auto; aspect-ratio: 1 / 1; padding: 0; position: relative; overflow: hidden; border: 0; color: white; cursor: pointer; text-align: left; }
+.episode-cover { width: 100%; height: auto; aspect-ratio: 1 / 1; padding: 0; display: block; position: relative; overflow: hidden; color: white; }
 .episode-cover.garasho-wadaag { background: linear-gradient(145deg, #344055, var(--gw-navy)); }
 .episode-cover.hiloow { background: linear-gradient(145deg, var(--hiloow-dark), var(--hiloow-green)); }
 .episode-cover-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .25s ease; }
@@ -148,7 +148,6 @@ main { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
 .guest-preview strong { font-size: 12px; }
 .guest-preview span { color: var(--ink-soft); font-size: 11px; line-height: 1.35; }
 .guest-preview small { color: var(--ink-soft); font-size: 11px; }
-.open-button { margin-top: auto; padding: 20px 0 0; display: flex; justify-content: space-between; border: 0; border-top: 1px solid var(--line); background: none; cursor: pointer; font-size: 12px; font-weight: 700; }
 .empty-state { padding: 80px 20px; border: 1px dashed var(--line); border-radius: 22px; text-align: center; }
 .empty-state button { padding: 10px 15px; border: 0; border-radius: 999px; background: var(--ink); color: white; cursor: pointer; }
 
@@ -243,7 +242,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .filters select { min-height: 50px; }
   .episode-grid { grid-template-columns: 1fr; }
   .episode-card-body { min-height: auto; }
-  .open-button { margin-top: 24px; }
   .episode-page { padding-top: 22px; }
   .episode-hero { min-height: 360px; padding: 32px 25px; border-radius: 22px; }
   .episode-hero h1 { font-size: 32px; }

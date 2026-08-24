@@ -405,27 +405,25 @@ function EpisodeCard({ episode, programme, station, guests, language, navigate, 
   t: (key: string) => string;
 }) {
   return (
-    <article className="episode-card">
-      <button
-        className={`episode-cover ${programme.id}`}
-        onClick={() => navigate({ programme: null, episode: episode.id })}
-        aria-label={`${programme.name[language]} · ${episodeLabel(episode.episode_number, language, t)}: ${value(episode.title, language)}`}
-      >
+    <button
+      className="episode-card"
+      onClick={() => navigate({ programme: null, episode: episode.id })}
+      aria-label={`${programme.name[language]} · ${episodeLabel(episode.episode_number, language, t)}: ${value(episode.title, language)}`}
+    >
+      <span className={`episode-cover ${programme.id}`}>
         <EpisodeCoverImage episode={episode} className="episode-cover-image" />
-      </button>
+      </span>
       <div className="episode-card-body">
         <p className="card-meta">{formatDate(episode.broadcast_date, language)} · {station ? station.name[language] : "?"}</p>
         <h3>{episode.episode_number}. {value(episode.title, language)}</h3>
         <div className="guest-preview">
-          {guests.slice(0, 2).map((guest) => {
+          {guests.map((guest) => {
             const role = value(guest.role, language);
             return <div key={guest.id}><strong>{guest.guest_name}</strong>{role !== "?" && <span>{role}</span>}</div>;
           })}
-          {guests.length > 2 && <small>+{guests.length - 2}</small>}
         </div>
-        <button className="open-button" onClick={() => navigate({ programme: null, episode: episode.id })}>{t("open_episode")} <span aria-hidden="true">→</span></button>
       </div>
-    </article>
+    </button>
   );
 }
 
