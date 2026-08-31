@@ -145,6 +145,13 @@
 .guest-card-head { display: flex; justify-content: space-between; align-items: center; }
 .guest-card-head > span { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: #e8f1ed; color: var(--teal); font-size: 10px; font-weight: 900; }
 .guest-card-head button { border: 0; background: transparent; color: #a74b3e; font-size: 10px; font-weight: 800; cursor: pointer; }
+.guest-options-grid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, .85fr) minmax(0, 2fr); gap: 14px; }
+.guest-radio-field { min-width: 0; }
+.guest-radio-choice { display: flex; flex-wrap: wrap; gap: 8px; }
+.guest-radio-choice label { min-height: 40px; padding: 9px 12px; display: flex; align-items: center; gap: 8px; border: 1px solid #d7dbd3; border-radius: 10px; background: #fffdf8; color: var(--muted); cursor: pointer; }
+.guest-radio-choice label:has(input:checked) { border-color: var(--teal); background: #e8f1ed; color: var(--ink); box-shadow: 0 0 0 2px rgba(8,127,120,.08); }
+.guest-radio-choice input { width: 16px; height: 16px; min-height: 0; padding: 0; accent-color: var(--teal); }
+.guest-radio-choice span { font-size: 11px; font-weight: 800; letter-spacing: 0; text-transform: none; }
 .add-guest { width: 100%; min-height: 48px; border: 1px dashed #aebbb3; border-radius: 12px; background: #f6faf7; color: var(--teal); font-size: 12px; font-weight: 900; cursor: pointer; }
 .add-guest:hover { background: #e8f1ed; }
 
@@ -189,6 +196,7 @@
 @media (max-width: 1120px) {
   .admin-workspace { grid-template-columns: 315px minmax(0, 1fr); }
   .form-grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .guest-options-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .media-grid { grid-template-columns: 1fr; }
 }
 
@@ -210,6 +218,7 @@
   .editor-banner img { width: 54px; height: 54px; border-radius: 13px; }
   .editor-section > header, .editor-section-body, .save-bar { padding-left: 18px; padding-right: 18px; }
   .form-grid.two, .form-grid.four, .radio-choice, .synopsis-preview-grid { grid-template-columns: 1fr; }
+  .guest-options-grid { grid-template-columns: 1fr; }
   .guest-editor-card { padding: 14px; }
   .save-bar { align-items: stretch; flex-direction: column; }
   .save-bar button { width: 100%; }
