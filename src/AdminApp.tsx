@@ -27,6 +27,10 @@ function missing(value: string | null | undefined) {
   return !value || value.trim() === "?";
 }
 
+function guestHistoryKey(programmeId: string, guestName: string) {
+  return `${programmeId}::${guestName.trim().toLocaleLowerCase()}`;
+}
+
 function clone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value));
 }
@@ -213,6 +217,22 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
   const programmeMap = new Map(availableProgrammes.map((item) => [item.id, item]));
   const effectiveEpisodeIds = new Set(effectiveEpisodes.map((episode) => episode.id));
   const guestNames = Array.from(new Set(baseline.guests.filter((guest) => effectiveEpisodeIds.has(guest.episode_id)).map((guest) => guest.guest_name).filter((name) => !missing(name)))).sort();
+  const episodeById = new Map(effectiveEpisodes.map((episode) => [episode.id, episode]));
+  const latestGuestByProgrammeAndName = new Map<string, Guest>();
+  baseline.guests
+    .filter((guest) => effectiveEpisodeIds.has(guest.episode_id) && !missing(guest.guest_name))
+    .sort((a, b) => {
+      const aEpisode = episodeById.get(a.episode_id);
+      const bEpisode = episodeById.get(b.episode_id);
+      return (bEpisode?.broadcast_date || "").localeCompare(aEpisode?.broadcast_date || "")
+        || (bEpisode?.episode_number || 0) - (aEpisode?.episode_number || 0);
+    })
+    .forEach((guest) => {
+      const episode = episodeById.get(guest.episode_id);
+      if (!episode) return;
+      const key = guestHistoryKey(episode.programme_id, guest.guest_name);
+      if (!latestGuestByProgrammeAndName.has(key)) latestGuestByProgrammeAndName.set(key, guest);
+    });
   const loweredQuery = query.trim().toLocaleLowerCase();
   const filteredEpisodes = effectiveEpisodes.filter((episode) => {
     const item = allDrafts.get(episode.id)!;
@@ -422,8 +442,143 @@ function AdminWorkspace({ moderator }: { moderator: Moderator }) {
               </EditorSection>
 
               <EditorSection title={t.guests} number="03">
-                <div className="guest-editor-list">{draft.guests.map((guest, index) => <article className="guest-editor-card" key={guest.id}><div className="guest-card-head"><span>{String(index + 1).padStart(2, "0")}</span><button onClick={() => updateDraft((current) => { current.guests.splice(index, 1); return current; })}>{t.remove}</button></div><div className="form-grid two"><Field label={t.guestName} missing={missing(guest.guest_name)}><input list="guest-names" value={guest.guest_name === "?" ? "" : guest.guest_name} onChange={(event) => updateDraft((current) => { current.guests[index].guest_name = event.target.value; return current; })} /></Field><Field label={t.participation}><select value={guest.participation_mode} onChange={(event) => updateDraft((current) => { current.guests[index].participation_mode = event.target.value as Guest["participation_mode"]; return current; })}><option value="unknown">{t.unknown}</option><option value="live">{t.live}</option><option value="recorded">{t.recorded}</option></select></Field></div><div className="form-grid two"><Field label={t.roleSo} missing={missing(guest.role.so)}><input value={guest.role.so === "?" ? "" : guest.role.so} onChange={(event) => updateDraft((current) => { current.guests[index].role.so = event.target.value; return current; })} /></Field><Field label={t.roleEn} missing={missing(guest.role.en)}><input value={guest.role.en === "?" ? "" : guest.role.en} onChange={(event) => updateDraft((current) => { current.guests[index].role.en = event.target.value; return current; })} /></Field></div><div className="form-grid four"><Field label={t.gender}><select value={guest.gender} onChange={(event) => updateDraft((current) => { current.guests[index].gender = event.target.value as Guest["gender"]; return current; })}><option value="man">{t.man}</option><option value="woman">{t.woman}</option><option value="unknown">{t.unknown}</option></select></Field><Field label={t.youth}><select value={guest.is_youth === null ? "" : String(guest.is_youth)} onChange={(event) => updateDraft((current) => { current.guests[index].is_youth = event.target.value === "" ? null : event.target.value === "true"; return current; })}><option value="">{t.unknown}</option><option value="true">{t.yes}</option><option value="false">{t.no}</option></select></Field><Field label={t.crossSection}><select value={guest.cross_section || ""} onChange={(event) => updateDraft((current) => { current.guests[index].cross_section = event.target.value || null; return current; })}><option value="">{t.unknown}</option><option value="civil-society">{t.civilSociety}</option><option value="government-administration">{t.governmentAdmin}</option><option value="elder">{t.elder}</option><option value="religious-leader">{t.religiousLeader}</option></select></Field><Field label={t.ipn}><select value={guest.ipn_region || ""} onChange={(event) => updateDraft((current) => { current.guests[index].ipn_region = event.target.value || null; return current; })}><option value="">{t.notIpn}</option>{baseline.states.map((state) => <option value={state.id} key={state.id}>{state.name[language]}</option>)}</select></Field></div></article>)}</div>
-                <button className="add-guest" onClick={() => updateDraft((current) => { current.guests.push({ id: `${current.episode.id}-g-${Date.now()}`, episode_id: current.episode.id, guest_name: "", role: { so: "", en: "" }, gender: "man", is_youth: null, cross_section: null, ipn_region: null, participation_mode: "live", data_status: "incomplete", missing_fields: ["guest_name", "role.so", "role.en"] }); return current; })}>＋ {t.addGuest}</button>
+                <div className="guest-editor-list">
+                  {draft.guests.map((guest, index) => (
+                    <article className="guest-editor-card" key={guest.id}>
+                      <div className="guest-card-head">
+                        <span>{String(index + 1).padStart(2, "0")}</span>
+                        <button onClick={() => updateDraft((current) => { current.guests.splice(index, 1); return current; })}>{t.remove}</button>
+                      </div>
+
+                      <div className="form-grid two">
+                        <Field label={t.guestName} missing={missing(guest.guest_name)}>
+                          <input
+                            list="guest-names"
+                            value={guest.guest_name === "?" ? "" : guest.guest_name}
+                            onChange={(event) => updateDraft((current) => {
+                              const selectedName = event.target.value;
+                              const currentGuest = current.guests[index];
+                              currentGuest.guest_name = selectedName;
+                              const previousGuest = latestGuestByProgrammeAndName.get(guestHistoryKey(current.episode.programme_id, selectedName));
+                              if (previousGuest) currentGuest.role = clone(previousGuest.role);
+                              return current;
+                            })}
+                          />
+                        </Field>
+                        <GuestRadioField label={t.participation}>
+                          {(["live", "recorded"] as const).map((mode) => (
+                            <label key={mode}>
+                              <input
+                                type="radio"
+                                name={`guest-${guest.id}-participation`}
+                                checked={guest.participation_mode === mode}
+                                onChange={() => updateDraft((current) => { current.guests[index].participation_mode = mode; return current; })}
+                              />
+                              <span>{mode === "live" ? t.live : t.recorded}</span>
+                            </label>
+                          ))}
+                        </GuestRadioField>
+                      </div>
+
+                      <div className="form-grid two">
+                        <Field label={t.roleSo} missing={missing(guest.role.so)}>
+                          <input value={guest.role.so === "?" ? "" : guest.role.so} onChange={(event) => updateDraft((current) => { current.guests[index].role.so = event.target.value; return current; })} />
+                        </Field>
+                        <Field label={t.roleEn} missing={missing(guest.role.en)}>
+                          <input value={guest.role.en === "?" ? "" : guest.role.en} onChange={(event) => updateDraft((current) => { current.guests[index].role.en = event.target.value; return current; })} />
+                        </Field>
+                      </div>
+
+                      <div className="guest-options-grid">
+                        <GuestRadioField label={t.gender}>
+                          {(["man", "woman"] as const).map((gender) => (
+                            <label key={gender}>
+                              <input
+                                type="radio"
+                                name={`guest-${guest.id}-gender`}
+                                checked={guest.gender === gender}
+                                onChange={() => updateDraft((current) => { current.guests[index].gender = gender; return current; })}
+                              />
+                              <span>{gender === "man" ? t.man : t.woman}</span>
+                            </label>
+                          ))}
+                        </GuestRadioField>
+
+                        <GuestRadioField label={t.youth}>
+                          {([true, false] as const).map((isYouth) => (
+                            <label key={String(isYouth)}>
+                              <input
+                                type="radio"
+                                name={`guest-${guest.id}-youth`}
+                                checked={guest.is_youth === isYouth}
+                                onChange={() => updateDraft((current) => { current.guests[index].is_youth = isYouth; return current; })}
+                              />
+                              <span>{isYouth ? t.yes : t.no}</span>
+                            </label>
+                          ))}
+                        </GuestRadioField>
+
+                        <GuestRadioField label={t.crossSection}>
+                          {([
+                            ["civil-society", t.civilSociety],
+                            ["government-administration", t.governmentAdmin],
+                            ["elder", t.elder],
+                            ["religious-leader", t.religiousLeader],
+                          ] as const).map(([value, label]) => (
+                            <label key={value}>
+                              <input
+                                type="radio"
+                                name={`guest-${guest.id}-cross-section`}
+                                checked={guest.cross_section === value}
+                                onChange={() => updateDraft((current) => { current.guests[index].cross_section = value; return current; })}
+                              />
+                              <span>{label}</span>
+                            </label>
+                          ))}
+                        </GuestRadioField>
+                      </div>
+
+                      <GuestRadioField label={t.ipn}>
+                        <label>
+                          <input
+                            type="radio"
+                            name={`guest-${guest.id}-ipn`}
+                            checked={!guest.ipn_region}
+                            onChange={() => updateDraft((current) => { current.guests[index].ipn_region = null; return current; })}
+                          />
+                          <span>{t.notIpn}</span>
+                        </label>
+                        {baseline.states.map((state) => (
+                          <label key={state.id}>
+                            <input
+                              type="radio"
+                              name={`guest-${guest.id}-ipn`}
+                              checked={guest.ipn_region === state.id}
+                              onChange={() => updateDraft((current) => { current.guests[index].ipn_region = state.id; return current; })}
+                            />
+                            <span>{state.name[language]}</span>
+                          </label>
+                        ))}
+                      </GuestRadioField>
+                    </article>
+                  ))}
+                </div>
+                <button className="add-guest" onClick={() => updateDraft((current) => {
+                  current.guests.push({
+                    id: `${current.episode.id}-g-${Date.now()}`,
+                    episode_id: current.episode.id,
+                    guest_name: "",
+                    role: { so: "", en: "" },
+                    gender: "unknown",
+                    is_youth: null,
+                    cross_section: null,
+                    ipn_region: null,
+                    participation_mode: "live",
+                    data_status: "incomplete",
+                    missing_fields: ["guest_name", "role.so", "role.en"],
+                  });
+                  return current;
+                })}>＋ {t.addGuest}</button>
               </EditorSection>
 
               <EditorSection title={t.media} number="04">
@@ -446,4 +601,8 @@ function EditorSection({ title, number, tone, children }: { title: string; numbe
 
 function Field({ label, missing: isMissing, children }: { label: string; missing?: boolean; children: React.ReactNode }) {
   return <label className={`admin-field ${isMissing ? "missing" : ""}`}><span>{label}{isMissing && <i>!</i>}</span>{children}</label>;
+}
+
+function GuestRadioField({ label, children }: { label: string; children: React.ReactNode }) {
+  return <div className="admin-field guest-radio-field"><span>{label}</span><div className="guest-radio-choice">{children}</div></div>;
 }
